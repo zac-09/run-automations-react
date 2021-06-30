@@ -19,7 +19,7 @@ function App() {
             <Redirect to="/dashboard" />
           </Route>
           <Route path="/dashboard" exact>
-            <Header title="Device: kasubi-32" />
+            <Header title="Device: kasubi-36" />
 
             <Content />
           </Route>
