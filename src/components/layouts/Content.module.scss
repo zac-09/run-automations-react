@@ -1,0 +1,31 @@
+.cardContainer {
+  display: flex;
+  //   justify-content: space-between;
+  flex-wrap: wrap;
+  border-bottom: 3px solid var(--color-grey-light-3);
+}
+.card {
+  width: 24rem;
+  //   height: 15rem;
+  margin: 3rem 3rem;
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--color-grey-dark-2);
+    margin-left: 2rem;
+  }
+  &__value {
+    font-size: 3.5rem;
+    margin-left: 2rem;
+  }
+}
+// .guageChart {
+//   height: 2rem;
+// }
+.chartsContainer {
+  margin: 5rem 2rem;
+  //   max-height: 50rem;
+  &__heading {
+    font-size: 3rem;
+  }
+}
