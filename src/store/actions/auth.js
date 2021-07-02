@@ -1,6 +1,6 @@
 import { authActions } from "../index";
 
-const url = "https://cryptic-wave-64102.herokuapp.com";
+const url = "https://cryptic-wave-64102.herokuapp.com/api/v1/users";
 let timer;
 export const logout = () => {
   clearLogoutTimer();
