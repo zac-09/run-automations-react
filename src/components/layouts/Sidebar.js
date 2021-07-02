@@ -1,11 +1,21 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import styles from "./Sidebar.module.scss";
 import sprite from "./../../assets/sprite.svg";
 import logo from "./../../assets/logo-3.png";
 import Button from "../Button";
 import { NavLink, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/actions/auth";
+import LoadingSpinner from "../UI/LoadingSpinner";
 const Sidebar = () => {
+  const [loading, setIsLoading] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
+  const logoutHandler = async () => {
+    setIsLoading(true);
+    await dispatch(logout());
+    setIsLoading(false);
+  };
   return (
     <Fragment>
       <div className={styles["side-bar"]}>
@@ -75,9 +85,12 @@ const Sidebar = () => {
               <span>settings</span>
             </NavLink>
           </li>
-          <div className={styles["logout"]}>
-            <Button label="logout" />
-          </div>
+          {!loading && (
+            <div className={styles["logout"]} onClick={logoutHandler}>
+              <Button label="logout" />
+            </div>
+          )}
+          {loading && <LoadingSpinner />}
         </ul>
         <div className={styles["legal"]}>
           &copy; copyright run automations 2021

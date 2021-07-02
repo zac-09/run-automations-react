@@ -1,7 +1,7 @@
 .side-bar {
   width: 25%;
   display: flex;
-  flex: 0 0 25%;
+  flex: 0 0 20%;
   flex-direction: column;
   // justify-content: space-between;
   background-image: linear-gradient(
@@ -17,8 +17,8 @@
   //   align-items: center;
 
   &__logo {
-    height: 15rem;
-    width: 15rem;
+    height: 12rem;
+    width: 12rem;
     // animation:  spin infinite 5s linear;
   }
   &__logo-box {
@@ -28,7 +28,7 @@
     flex-direction: column;
   }
   &__heading {
-    font-size: 3.5rem;
+    font-size: 2rem;
     color: var(--color-grey-light-3);
 
     letter-spacing: 0.2rem;
@@ -43,7 +43,7 @@
     }
   }
   &__tag-line {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     color: var(--color-grey-light-3);
   }
   &__list {
@@ -90,7 +90,7 @@
       text-decoration: none;
       font-size: 1.9rem;
       color: var(--color-grey-light-1);
-      margin-left: 6rem;
+      margin-left: 2rem;
       display: flex;
       align-items: center;
       text-transform: uppercase;
@@ -109,7 +109,7 @@
     }
     &--link--active::before {
       transform: scaleY(1);
-      width: 122.8%;
+      width: 127%; 
     }
     // &--item:active::before {
     //   background-color: var(--color-primary-light);
@@ -124,9 +124,10 @@
   }
 }
 .legal {
-  font-size: 1.8rem;
-  margin-left: 5rem;
+  font-size: 1.2rem;
+  // margin-left: 2rem;
     // align-self: flex-end;
+    padding: 1rem;
   
 }
 
@@ -139,7 +140,7 @@
   }
 }
 .logout {
-  margin-left: 7rem;
+  margin-left: 3.8rem;
   // justify-self: center;
   margin-top: 8rem;
 }

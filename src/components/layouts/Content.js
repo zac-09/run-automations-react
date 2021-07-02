@@ -84,9 +84,9 @@ const Content = () => {
           />
         </Card>
       </div>
-      <div className={styles["chartsContainer"]}>
+      <div className={styles["charts-div"]}> 
         {/* <span className={styles["chartsContainer__heading"]}>Statistics</span> */}
-        <Card styles={styles[""]}>
+        <Card styles={styles["chartsContainer"]}>
           <h4 className={styles["card__title"]}>Anual Power</h4>
           <Line data={data} options={options} />
         </Card>
