@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import styles from "./SignIn.module.scss";
-import logo from "./../../assets/logo-3.png";
+import logo from "./../../assets/newlogo.png";
 import FormButton from "../../components/UI/FormButton";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/actions/auth";

@@ -1,11 +1,13 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import styles from "./Content.module.scss";
 import Card from "../UI/Card";
 import { Line } from "react-chartjs-2";
 import GaugeChart from "react-gauge-chart";
 import { useDispatch, useSelector } from "react-redux";
 import { getDeviceData } from "../../store/actions/device";
+import Switch from "@material-ui/core/Switch";
 import moment from "moment";
+import { getSwitchData, toggleSwitch } from "../../store/actions/switch";
 const data = {
   labels: [
     "jan",
@@ -48,6 +50,7 @@ const maxVoltage = 240;
 const maxPower = 5000;
 
 const Content = () => {
+  const [isRelayOn, setIsRelayOn] = useState(false);
   const dispatch = useDispatch();
   const deviceData = useSelector((state) => state.devices);
   const selectedDevice = deviceData.devices.find(
@@ -57,6 +60,8 @@ const Content = () => {
   const voltage = deviceData.voltage / maxVoltage;
   const power = deviceData.power / maxPower;
   const date = moment(deviceData.createdAt).format("LLL");
+  const relay_status = useSelector((state) => state.switch.relay_on);
+  console.log("from relay status", relay_status);
   let deviceStatusClasses;
   if (selectedDevice !== null && selectedDevice !== undefined) {
     deviceStatusClasses =
@@ -65,9 +70,12 @@ const Content = () => {
         : styles["device__activity__status--deactive"];
   }
 
-  console.log("from content", deviceData);
+  const onChangeRelayHandler = (event) => {
+    dispatch(toggleSwitch(event.target.checked));
+  };
   useEffect(() => {
     dispatch(getDeviceData());
+    dispatch(getSwitchData());
   }, []);
   return (
     <Fragment>
@@ -127,6 +135,18 @@ const Content = () => {
           <span className={styles["device__activity__label"]}>
             Location: Kasubi-43
           </span>
+        </div>
+        <div className={styles["device__activity__switch"]}>
+          <div>
+            <span className={styles["device__activity__relay"]}>relay</span>
+          </div>
+          <Switch
+            checked={relay_status}
+            onChange={onChangeRelayHandler}
+            name="checkedA"
+            color="primary"
+            inputProps={{ "aria-label": "primary checkbox" }}
+          />
         </div>
       </div>
       <div className={styles["charts-div"]}>

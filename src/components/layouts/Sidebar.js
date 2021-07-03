@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import styles from "./Sidebar.module.scss";
 import sprite from "./../../assets/sprite.svg";
-import logo from "./../../assets/logo-3.png";
+import logo from "./../../assets/newlogo.png";
 import Button from "../Button";
 import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
