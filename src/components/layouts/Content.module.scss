@@ -8,11 +8,18 @@
   max-width: 24rem;
   //   height: 15rem;
   margin: 3rem 3rem;
+  position: relative;
   &__title {
     font-size: 2.5rem;
     font-weight: 500;
     color: var(--color-grey-dark-2);
     margin-left: 2rem;
+  }
+  &__date {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-left: 7.2rem;
+    // position: absolute;
   }
   &__value {
     font-size: 3.5rem;
@@ -24,8 +31,42 @@
 // }
 .chartsContainer {
   margin: 3rem 2rem;
-    // max-height: 10rem;
+  // max-height: 10rem;
   &__heading {
     font-size: 3rem;
+  }
+}
+
+.device__activity {
+  display: flex;
+  align-items: center;
+  margin: 1rem 2rem;
+  justify-content: space-between;
+  // border-bottom: 3px solid var(--color-grey-light-3);
+  height: 5rem;
+  &__date {
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  &__status--active {
+    color: #fff;
+    display: inline-block;
+    font-size: 2rem;
+    background-color: var(--color-secondary);
+    height: 100%;
+    padding: 0.7rem;
+  }
+  &__status--deactive {
+    color: #fff;
+    display: inline-block;
+    font-size: 2rem;
+    background-color: #e40404de;
+    height: 100%;
+    padding: 0.7rem;
+  }
+  &__label {
+    font-size: 2rem;
+    font-weight: 300;
+    color: inherit;
   }
 }

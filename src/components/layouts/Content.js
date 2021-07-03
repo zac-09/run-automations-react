@@ -1,12 +1,11 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import styles from "./Content.module.scss";
-// import Card from "../UI/Card";
 import Card from "../UI/Card";
 import { Line } from "react-chartjs-2";
 import GaugeChart from "react-gauge-chart";
-// const chartStyle = {
-//   height: 200,
-// }
+import { useDispatch, useSelector } from "react-redux";
+import { getDeviceData } from "../../store/actions/device";
+import moment from "moment";
 const data = {
   labels: [
     "jan",
@@ -44,7 +43,32 @@ const options = {
     ],
   },
 };
+const maxCurrnet = 20;
+const maxVoltage = 240;
+const maxPower = 5000;
+
 const Content = () => {
+  const dispatch = useDispatch();
+  const deviceData = useSelector((state) => state.devices);
+  const selectedDevice = deviceData.devices.find(
+    (device) => device.device_imei === deviceData.selectedDevice_id
+  );
+  const current = deviceData.current / maxCurrnet;
+  const voltage = deviceData.voltage / maxVoltage;
+  const power = deviceData.power / maxPower;
+  const date = moment(deviceData.createdAt).format("LLL");
+  let deviceStatusClasses;
+  if (selectedDevice !== null && selectedDevice !== undefined) {
+    deviceStatusClasses =
+      selectedDevice.status === "active"
+        ? styles["device__activity__status--active"]
+        : styles["device__activity__status--deactive"];
+  }
+
+  console.log("from content", deviceData);
+  useEffect(() => {
+    dispatch(getDeviceData());
+  }, []);
   return (
     <Fragment>
       <div className={styles["cardContainer"]}>
@@ -54,10 +78,10 @@ const Content = () => {
           <GaugeChart
             id="gauge-chart-current"
             nrOfLevels={20}
-            percent={0.56}
+            percent={current}
             // needleColor="#5accf0"
             textColor="#5accf0"
-            formatTextValue={(value) => value + "A"}
+            formatTextValue={(value) => deviceData.current + "A"}
           />
         </Card>
         <Card styles={styles["card"]}>
@@ -67,10 +91,10 @@ const Content = () => {
             id="gauge-chart-voltage"
             textColor="#5accf0"
             nrOfLevels={20}
-            percent={0.26}
+            percent={voltage}
             colors={["#FF5F6D", "#FFC371"]}
             arcWidth={0.3}
-            formatTextValue={(value) => value + "V"}
+            formatTextValue={(value) => deviceData.voltage + "V"}
           />
         </Card>
         <Card styles={styles["card"]}>
@@ -79,12 +103,33 @@ const Content = () => {
             id="gauge-chart-power"
             textColor="#5accf0"
             // nrOfLevels={20}
-            percent={0.86}
-            formatTextValue={(value) => value + "W"}
+            percent={power}
+            formatTextValue={(value) => deviceData.power + "W"}
           />
         </Card>
       </div>
-      <div className={styles["charts-div"]}> 
+      <div className={styles["device__activity"]}>
+        <div>
+          <span className={styles["device__activity__label"]}>
+            Latest log:{" "}
+            <span className={styles["device__activity__date"]}>{date}</span>
+          </span>
+        </div>
+        <div>
+          <span className={styles["device__activity__label"]}>
+            status:{" "}
+            <div className={deviceStatusClasses}>
+              <span> {selectedDevice ? selectedDevice.status : ""}</span>
+            </div>
+          </span>
+        </div>
+        <div>
+          <span className={styles["device__activity__label"]}>
+            Location: Kasubi-43
+          </span>
+        </div>
+      </div>
+      <div className={styles["charts-div"]}>
         {/* <span className={styles["chartsContainer__heading"]}>Statistics</span> */}
         <Card styles={styles["chartsContainer"]}>
           <h4 className={styles["card__title"]}>Anual Power</h4>

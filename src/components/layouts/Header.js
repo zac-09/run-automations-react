@@ -1,8 +1,13 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import styles from "./Header.module.scss";
-import user from "./../../assets/user-6.jpg";
+import photoPlaceHolder from "./../../assets/placeholder.png";
 import sprite from "./../../assets/sprite.svg";
+import { useSelector } from "react-redux";
 const Header = (props) => {
+  const userData = useSelector((state) => state.auth.user);
+
+  console.log("from header", userData);
+
   return (
     <Fragment>
       <header className={styles["header"]}>
@@ -25,10 +30,12 @@ const Header = (props) => {
           <div className={styles["header__user-nav--user-nav"]}>
             <img
               className={styles["header__user-nav--user-photo"]}
-              src={user}
+              src={userData.photo ? userData.photo : photoPlaceHolder}
               alt="header user"
             />
-            <span class={styles["header__user-nav--user-name"]}>zac</span>
+            <span class={styles["header__user-nav--user-name"]}>
+              {userData.name}
+            </span>
             <div className={styles["header__user--button"]}></div>
           </div>
         </div>

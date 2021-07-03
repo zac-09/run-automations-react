@@ -1,15 +1,20 @@
-import { authActions } from "../index";
+import { authActions, deviceActions, notificationActions, url } from "../index";
 
-const url = "https://cryptic-wave-64102.herokuapp.com/api/v1/users";
 let timer;
 export const logout = () => {
   clearLogoutTimer();
   localStorage.removeItem("userData");
   return authActions.logout();
 };
-export const authenticate = (user, token, expiryTime) => {
-  return (dispatch) => {
-    dispatch(authActions.authenticate({ token: token, user: user }));
+export const authenticate = (user, token, devices, expiryTime) => {
+  return async (dispatch) => {
+    await dispatch(authActions.authenticate({ token: token, user: user }));
+    await dispatch(
+      deviceActions.setDeviceData({
+        devices: devices,
+        selectedDevice_id: devices[0].device_imei,
+      })
+    ); 
     dispatch(setLogoutTimer(expiryTime));
   };
 };
@@ -26,12 +31,13 @@ const clearLogoutTimer = () => {
   }
 };
 
-const saveDataToStorage = (user, token, expirationDate) => {
+const saveDataToStorage = (user, token, devices, expirationDate) => {
   localStorage.setItem(
     "userData",
     JSON.stringify({
       token: token,
       user: user,
+      devices: devices,
       expiryDate: expirationDate.toISOString(),
     })
   );
@@ -39,7 +45,7 @@ const saveDataToStorage = (user, token, expirationDate) => {
 
 export const login = (email, password, remember_me = false) => {
   return async (dispatch) => {
-    const response = await fetch(`${url}/login`, {
+    const response = await fetch(`${url}/users/login`, {
       method: "POST",
       body: JSON.stringify({
         email,
@@ -50,17 +56,36 @@ export const login = (email, password, remember_me = false) => {
       },
     });
     if (!response.ok) {
-      throw new Error("login failed");
+      const error = await response.json();
+      //   console.log(error.message);
+      dispatch(
+        notificationActions.showAlert({ type: "error", message: error.message })
+      );
+
+      throw new Error(error.message);
     }
     const data = await response.json();
     console.log("data from action", data);
     const expirationDate = new Date(
       new Date().getTime() + parseInt(data.expiresIn)
     );
-    dispatch(authActions.authenticate({ token: data.token, user: data.user }));
+    await dispatch(
+      authActions.authenticate({ token: data.token, user: data.data.user })
+    );
+    await dispatch(
+      deviceActions.setDeviceData({
+        devices: data.data.devices,
+        selectedDevice_id: data.data.devices[0].device_imei,
+      })
+    );
     // authenticate(data.token, data.data.user, +data.expiresIn);
     dispatch(setLogoutTimer(+data.expiresIn));
 
-    saveDataToStorage(data.data.user, data.token, expirationDate);
+    saveDataToStorage(
+      data.data.user,
+      data.token,
+      data.data.devices,
+      expirationDate
+    );
   };
 };

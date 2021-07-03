@@ -28,6 +28,7 @@ const SignIn = (props) => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
+      console.log("from compnent", error.message);
     }
   };
   return (
