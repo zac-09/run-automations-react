@@ -13,6 +13,7 @@ import { authenticate } from "./store/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "@material-ui/lab";
 import { notificationActions } from "./store";
+import Home from "./pages/Home";
 function App() {
   const auth = useSelector((state) => state.auth);
   console.log("from app", auth);
@@ -21,7 +22,7 @@ function App() {
   const selectedDevice = deviceData.devices.find(
     (device) => device.device_imei === deviceData.selectedDevice_id
   );
-  console.log("the selected device is",selectedDevice)
+  console.log("the selected device is", selectedDevice);
   const isLoggedIn = auth.isLoggedIn;
   const dispatch = useDispatch();
   const closeNotificationHandler = () => {
@@ -100,14 +101,22 @@ function App() {
               <Route path="/dashboard" exact>
                 <Header
                   title={`Device: ${
-                    selectedDevice ? selectedDevice.device_name : ""
+                    selectedDevice ? `${selectedDevice.device_name}` : ""
                   }`}
+                  device_imei={
+                    selectedDevice ? `${selectedDevice.device_imei}` : ""
+                  }
                 />
 
                 <Content />
               </Route>
               <Route path="/devices" exact>
                 <Header title="Devices" />
+
+                <Devices />
+              </Route>
+              <Route path="/home" exact>
+                <Header title={`Welcome  ${auth.user ? auth.user.name : ""}`} />
 
                 <Devices />
               </Route>

@@ -17,9 +17,15 @@
   }
   &__date {
     font-size: 1.2rem;
-    font-weight: 500;
-    margin-left: 7.2rem;
-    // position: absolute;
+    font-weight: 700;
+    // margin-left: 1rem;
+    display: inline-block;
+
+    // margin-right: 0;
+    position: absolute;
+    right: 1rem;
+    top: 14.6rem;
+    color:var(--color-secondary)
   }
   &__value {
     font-size: 3.5rem;
@@ -74,9 +80,9 @@
     font-weight: 300;
     color: inherit;
     display: inline-block;
-    margin-top: .3rem;
+    margin-top: 0.3rem;
   }
-  &__switch{
+  &__switch {
     display: flex;
     // align-items: center;
   }

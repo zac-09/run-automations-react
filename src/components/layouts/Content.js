@@ -4,12 +4,10 @@ import Card from "../UI/Card";
 import { Line } from "react-chartjs-2";
 import GaugeChart from "react-gauge-chart";
 import { useDispatch, useSelector } from "react-redux";
-import { getDeviceData } from "../../store/actions/device";
+import { getDeviceData, disconnectsocket } from "../../store/actions/device";
 import Switch from "@material-ui/core/Switch";
 import moment from "moment";
 import { getSwitchData, toggleSwitch } from "../../store/actions/switch";
-import socketIOClient from "socket.io-client";
-import { url } from "../../store";
 
 const GET_DEVICE_PARAMS_EVENT = "GET_DEVICE_PARAMATERS";
 const data = {
@@ -64,8 +62,9 @@ const Content = () => {
   const voltage = deviceData.voltage / maxVoltage;
   const power = deviceData.power / maxPower;
   const date = moment(deviceData.createdAt).format("LLL");
+  const cardTime = moment(deviceData.createdAt).format("LT");
   const relay_status = useSelector((state) => state.switch.relay_on);
-  
+
   let deviceStatusClasses;
   if (selectedDevice !== null && selectedDevice !== undefined) {
     deviceStatusClasses =
@@ -78,12 +77,12 @@ const Content = () => {
     dispatch(toggleSwitch(event.target.checked));
   };
   useEffect(() => {
-    // localStorage.debug = "*";
-
-  
-
     dispatch(getDeviceData());
     dispatch(getSwitchData());
+
+    return () => {
+      disconnectsocket();
+    };
   }, []);
   return (
     <Fragment>
@@ -99,6 +98,7 @@ const Content = () => {
             textColor="#5accf0"
             formatTextValue={(value) => deviceData.current + "A"}
           />
+          <span className={styles["card__date"]}>{cardTime}</span>
         </Card>
         <Card styles={styles["card"]}>
           <h4 className={styles["card__title"]}>Voltage</h4>
@@ -108,10 +108,11 @@ const Content = () => {
             textColor="#5accf0"
             nrOfLevels={20}
             percent={voltage}
-            colors={["#FF5F6D", "#FFC371"]}
+            // colors={["#FF5F6D", "#FFC371"]}
             arcWidth={0.3}
             formatTextValue={(value) => deviceData.voltage + "V"}
           />
+          <span className={styles["card__date"]}>{cardTime}</span>
         </Card>
         <Card styles={styles["card"]}>
           <h4 className={styles["card__title"]}> Power</h4>
@@ -122,12 +123,13 @@ const Content = () => {
             percent={power}
             formatTextValue={(value) => deviceData.power + "W"}
           />
+          <span className={styles["card__date"]}>{cardTime}</span>
         </Card>
       </div>
       <div className={styles["device__activity"]}>
         <div>
           <span className={styles["device__activity__label"]}>
-            Latest log:{" "}
+            Last log date:{" "}
             <span className={styles["device__activity__date"]}>{date}</span>
           </span>
         </div>

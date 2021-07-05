@@ -12,7 +12,14 @@ const Header = (props) => {
     <Fragment>
       <header className={styles["header"]}>
         {/* <img src={logo} alt="header logo" className={styles["header__logo"]} /> */}
-        <h2 className={styles["header__heading"]}>{props.title}</h2>
+        <h2 className={styles["header__heading"]}>
+          {props.title}
+          {props.device_imei && (
+            <span className={styles["header__heading--device-name"]}>
+              {`(${props.device_imei ? props.device_imei : ""})`}
+            </span>
+          )}
+        </h2>
         <div className={styles["header__user-nav"]}>
           <div className={styles["header__user-nav--icon-box"]}>
             <svg className={styles["header__user-nav--icon"]}>

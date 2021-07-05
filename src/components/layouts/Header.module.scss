@@ -8,8 +8,18 @@
   &__heading {
     font-size: 3rem;
     margin-left: 2rem;
-    font-weight: 300;
+    font-weight: 500;
     // font-family: "Lato";
+    position: relative;
+    &--device-name {
+      display:inline-block;
+      font-size: 1.5rem;
+      position: absolute;
+      top:1.4rem;
+      font-weight: 100;
+      margin-left: .7rem;
+      // margin-top: -100rem;
+    }
   }
   &__user-nav {
     display: flex;
@@ -27,10 +37,10 @@
     & > *:hover {
       background-color: var(--color-grey-light-1);
     }
-  
+
     &--user-photo {
-      width:4.5rem;
-      height:4.5rem;
+      width: 4.5rem;
+      height: 4.5rem;
       border-radius: 50%;
       flex: 1;
       margin-right: 1rem;

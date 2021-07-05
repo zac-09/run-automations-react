@@ -3,6 +3,7 @@
   display: flex;
   flex: 0 0 20%;
   flex-direction: column;
+  overflow: hidden;
   // justify-content: space-between;
   background-image: linear-gradient(
     to right bottom,
@@ -32,8 +33,8 @@
     color: var(--color-grey-light-3);
 
     letter-spacing: 0.2rem;
-    background-image: linear-gradient(to right, #ff00fe, #7e4141);
-    color: transparent;
+    // background-image: linear-gradient(to right, #ff00fe, #7e4141);
+    // color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
     display: inline-block;
@@ -53,6 +54,8 @@
 
     &--item {
       position: relative;
+      // border-top-right-radius: -100rem;
+
       &:not(:last-child) {
         margin-bottom: 2rem;
       }
@@ -63,7 +66,7 @@
       top: 0;
       left: 0;
       height: 100%;
-      width: 4px;
+      width: 2px;
       //   z-index: 5;
       background-image: linear-gradient(to right, #5accf0, #25bcf3, #a2e7ec);
       transform: scaleY(0);
@@ -76,19 +79,26 @@
       top: 0;
       left: 0;
       height: 100%;
-      width: 3px;
+      width: 1px;
       //   z-index: 5;
       background-image: linear-gradient(to right, #5accf0, #25bcf3, #a2e7ec);
       transform: scaleY(0);
       transition: transform 0.3s, width 0.3s cubic-bezier(1, 0, 0, 1) 0.2s,
         background-color 0.1s;
       z-index: 0;
-      margin-left: -6rem;
+      // margin-left: -6rem;
+      border-top-left-radius: 100rem;
+      border-top-right-radius: 100rem;
+
+      border-bottom-left-radius: 100rem;
+
+      // border-radius: 100px;
     }
     &--link:link,
     &--link:visited {
       text-decoration: none;
       font-size: 1.9rem;
+      font-weight: 600;
       color: var(--color-grey-light-1);
       margin-left: 2rem;
       display: flex;
@@ -105,7 +115,7 @@
     }
     &--item:hover::before {
       transform: scaleY(1);
-      width: 100%;
+      // width: 100%;
     }
     &--link--active::before {
       transform: scaleY(1);

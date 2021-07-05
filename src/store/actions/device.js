@@ -3,6 +3,7 @@ import { connectServer } from "../../utils/socket-client";
 import socketIOClient from "socket.io-client";
 
 const GET_DEVICE_PARAMS_EVENT = "GET_DEVICE_PARAMATERS";
+const socket = connectServer(socketUrl);
 
 export const getDeviceData = () => {
   return async (dispatch, getState) => {
@@ -30,8 +31,7 @@ export const getDeviceData = () => {
       })
     );
 
-    const socket = connectServer(socketUrl);
-    socket.on(GET_DEVICE_PARAMS_EVENT, async (data) => {
+    socket.on(`${GET_DEVICE_PARAMS_EVENT}-${device_id}`, async (data) => {
       console.log("data received socket", data);
       await dispatch(
         deviceActions.upadateDeviceParameters({
@@ -43,4 +43,9 @@ export const getDeviceData = () => {
       );
     });
   };
+};
+
+export const disconnectsocket = () => {
+  console.log("disconnecting socket ...");
+  socket.disconnect();
 };

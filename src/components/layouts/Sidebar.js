@@ -35,6 +35,19 @@ const Sidebar = () => {
             className={`${styles["side-bar__list--item"]}  ${styles["side-bar__list--item--active"]}`}
           >
             <NavLink
+              to="/devices"
+              href="#"
+              className={styles["side-bar__list--link"]}
+              activeClassName={styles["side-bar__list--link--active"]}
+            >
+              <svg class={styles["side-bar__icon"]}>
+                <use href={`${sprite}#icon-devices`}></use>
+              </svg>
+              <span>Devices</span>
+            </NavLink>
+          </li>
+          <li className={styles["side-bar__list--item"]}>
+            <NavLink
               to="/dashboard"
               activeClassName={styles["side-bar__list--link--active"]}
               href="#"
@@ -48,15 +61,15 @@ const Sidebar = () => {
           </li>
           <li className={styles["side-bar__list--item"]}>
             <NavLink
-              to="/devices"
+              to="/home"
+              activeClassName={styles["side-bar__list--link--active"]}
               href="#"
               className={styles["side-bar__list--link"]}
-              activeClassName={styles["side-bar__list--link--active"]}
             >
               <svg class={styles["side-bar__icon"]}>
-                <use href={`${sprite}#icon-devices`}></use>
+                <use href={`${sprite}#icon-home`}></use>
               </svg>
-              <span>Devices</span>
+              <span>home</span>
             </NavLink>
           </li>
           <li className={styles["side-bar__list--item"]}>
