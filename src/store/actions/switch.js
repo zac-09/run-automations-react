@@ -12,6 +12,15 @@ export const getSwitchData = () => {
         Authorization: "Bearer " + token,
       }),
     });
+    if (!response.ok) {
+      const error = await response.json();
+      //   console.log(error.message);
+      dispatch(
+        notificationActions.showAlert({ type: "error", message: error.message })
+      );
+
+      throw new Error(error.message);
+    }
     const data = await response.json();
     console.log("from switch", data.relay.relay, device_id);
     await dispatch(
@@ -24,7 +33,6 @@ export const getSwitchData = () => {
 
 export const toggleSwitch = (relay_status) => {
   return async (dispatch, getState) => {
-   
     const state = getState();
     const token = state.auth.token;
     const device_id = state.devices.selectedDevice_id;
@@ -39,7 +47,16 @@ export const toggleSwitch = (relay_status) => {
         "Content-type": "application/json",
       }),
     });
-  
+
+    if (!response.ok) {
+      const error = await response.json();
+      //   console.log(error.message);
+      dispatch(
+        notificationActions.showAlert({ type: "error", message: error.message })
+      );
+
+      throw new Error(error.message);
+    }
 
     const data = await response.json();
     await dispatch(

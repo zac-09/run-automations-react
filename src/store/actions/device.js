@@ -1,4 +1,8 @@
-import { deviceActions, url } from "..";
+import { deviceActions, url, socketUrl } from "..";
+import { connectServer } from "../../utils/socket-client";
+import socketIOClient from "socket.io-client";
+
+const GET_DEVICE_PARAMS_EVENT = "GET_DEVICE_PARAMATERS";
 
 export const getDeviceData = () => {
   return async (dispatch, getState) => {
@@ -25,5 +29,18 @@ export const getDeviceData = () => {
         createdAt: data.data.createdAt,
       })
     );
+
+    const socket = connectServer(socketUrl);
+    socket.on(GET_DEVICE_PARAMS_EVENT, async (data) => {
+      console.log("data received socket", data);
+      await dispatch(
+        deviceActions.upadateDeviceParameters({
+          current: data.current,
+          voltage: data.voltage,
+          power: data.power,
+          createdAt: data.createdAt,
+        })
+      );
+    });
   };
 };

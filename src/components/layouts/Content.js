@@ -8,6 +8,10 @@ import { getDeviceData } from "../../store/actions/device";
 import Switch from "@material-ui/core/Switch";
 import moment from "moment";
 import { getSwitchData, toggleSwitch } from "../../store/actions/switch";
+import socketIOClient from "socket.io-client";
+import { url } from "../../store";
+
+const GET_DEVICE_PARAMS_EVENT = "GET_DEVICE_PARAMATERS";
 const data = {
   labels: [
     "jan",
@@ -61,7 +65,7 @@ const Content = () => {
   const power = deviceData.power / maxPower;
   const date = moment(deviceData.createdAt).format("LLL");
   const relay_status = useSelector((state) => state.switch.relay_on);
-  console.log("from relay status", relay_status);
+  
   let deviceStatusClasses;
   if (selectedDevice !== null && selectedDevice !== undefined) {
     deviceStatusClasses =
@@ -74,6 +78,10 @@ const Content = () => {
     dispatch(toggleSwitch(event.target.checked));
   };
   useEffect(() => {
+    // localStorage.debug = "*";
+
+  
+
     dispatch(getDeviceData());
     dispatch(getSwitchData());
   }, []);
