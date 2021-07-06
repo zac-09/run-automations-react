@@ -23,7 +23,7 @@ const SignIn = (props) => {
     try {
       setIsLoading(true);
       await dispatch(login(email, password));
-      history.replace("/dashboard");
+      history.replace("/");
 
       setIsLoading(false);
     } catch (error) {

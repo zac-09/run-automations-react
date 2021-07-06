@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import styles from "./Content.module.scss";
+import styles from "./Dashboard.module.scss";
 import Card from "../UI/Card";
 import { Line } from "react-chartjs-2";
 import GaugeChart from "react-gauge-chart";
@@ -8,7 +8,7 @@ import { getDeviceData, disconnectsocket } from "../../store/actions/device";
 import Switch from "@material-ui/core/Switch";
 import moment from "moment";
 import { getSwitchData, toggleSwitch } from "../../store/actions/switch";
-
+import Header from "./Header";
 const GET_DEVICE_PARAMS_EVENT = "GET_DEVICE_PARAMATERS";
 const data = {
   labels: [
@@ -51,7 +51,7 @@ const maxCurrnet = 20;
 const maxVoltage = 240;
 const maxPower = 5000;
 
-const Content = () => {
+const Dashboard = () => {
   const [isRelayOn, setIsRelayOn] = useState(false);
   const dispatch = useDispatch();
   const deviceData = useSelector((state) => state.devices);
@@ -84,8 +84,27 @@ const Content = () => {
       disconnectsocket();
     };
   }, []);
+  if (
+    selectedDevice === null ||
+    !selectedDevice ||
+    selectedDevice === undefined
+  ) {
+    return (
+      // <div className={styles["cardContainer"]}>
+      <div className={styles["fallback"]}>
+        <span>No devices found please go do devices page and add device!</span>
+      </div>
+      // </div>
+    );
+  }
   return (
     <Fragment>
+      <Header
+        title={`Device: ${
+          selectedDevice ? `${selectedDevice.device_name}` : ""
+        }`}
+        device_imei={selectedDevice ? `${selectedDevice.device_imei}` : ""}
+      />
       <div className={styles["cardContainer"]}>
         <Card styles={styles["card"]}>
           <h4 className={styles["card__title"]}>Current</h4>
@@ -177,4 +196,4 @@ const Content = () => {
   );
 };
 
-export default Content;
+export default Dashboard;

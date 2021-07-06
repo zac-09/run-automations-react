@@ -25,7 +25,7 @@
     position: absolute;
     right: 1rem;
     top: 14.6rem;
-    color:var(--color-secondary)
+    color: var(--color-secondary);
   }
   &__value {
     font-size: 3.5rem;
@@ -86,4 +86,11 @@
     display: flex;
     // align-items: center;
   }
+}
+.fallback {
+  font-size: 3rem;
+  color: red;
+  font-weight: 600;
+  width: 1000%;
+  padding: 1rem 2rem;
 }

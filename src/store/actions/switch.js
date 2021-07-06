@@ -4,7 +4,19 @@ export const getSwitchData = () => {
   return async (dispatch, getState) => {
     const state = getState();
     const token = state.auth.token;
-    const device_id = state.devices.selectedDevice_id;
+    let device_id = state.devices.selectedDevice_id;
+    if (device_id === null) {
+      if (!state.devices.devices || state.devices.devices.length === 0) {
+        dispatch(
+          notificationActions.showAlert({
+            type: "error",
+            message: "no devices found",
+          })
+        );
+        return;
+      }
+      device_id = state.devices.devices[0].device_imei;
+    }
 
     const response = await fetch(`${url}/switch?device_id=${device_id}`, {
       method: "GET",
@@ -19,9 +31,19 @@ export const getSwitchData = () => {
         notificationActions.showAlert({ type: "error", message: error.message })
       );
 
+      return;
       throw new Error(error.message);
     }
     const data = await response.json();
+    if (!data.relay) {
+      dispatch(
+        notificationActions.showAlert({
+          type: "error",
+          message: "selected device has not logged any data yet",
+        })
+      );
+      return;
+    }
     console.log("from switch", data.relay.relay, device_id);
     await dispatch(
       switchActions.toggleSwitch({

@@ -3,7 +3,7 @@ import "./App.scss";
 import { Fragment, useEffect } from "react";
 import Header from "./components/layouts/Header";
 import Sidebar from "./components/layouts/Sidebar";
-import Content from "./components/layouts/Content";
+import Dashboard from "./components/layouts/Dashboard";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Settings from "./components/layouts/Settings";
 import Account from "./components/layouts/Account";
@@ -97,18 +97,18 @@ function App() {
           <div className="container">
             <Sidebar />
 
-            <div className="content">
+            <div className="dashboard">
               <Route path="/dashboard" exact>
-                <Header
+                {/* <Header
                   title={`Device: ${
                     selectedDevice ? `${selectedDevice.device_name}` : ""
                   }`}
                   device_imei={
                     selectedDevice ? `${selectedDevice.device_imei}` : ""
                   }
-                />
+                /> */}
 
-                <Content />
+                <Dashboard />
               </Route>
               <Route path="/devices" exact>
                 <Header title="Devices" />
@@ -131,8 +131,11 @@ function App() {
 
                 <Settings />
               </Route>
+              <Route path="/" exact>
+                <Redirect to="/devices" />
+              </Route>
               <Route path="*">
-                <Redirect to="/dashboard" />
+                <Redirect to="/devices" />
               </Route>
             </div>
           </div>

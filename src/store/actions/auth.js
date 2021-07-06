@@ -9,12 +9,12 @@ export const logout = () => {
 export const authenticate = (user, token, devices, expiryTime) => {
   return async (dispatch) => {
     await dispatch(authActions.authenticate({ token: token, user: user }));
-    await dispatch(
-      deviceActions.setDeviceData({
-        devices: devices,
-        selectedDevice_id: devices[0].device_imei,
-      })
-    ); 
+    // await dispatch(
+    //   deviceActions.setDeviceData({
+    //     devices: devices,
+    //     selectedDevice_id: devices[0].device_imei,
+    //   })
+    // ); 
     dispatch(setLogoutTimer(expiryTime));
   };
 };
@@ -72,12 +72,12 @@ export const login = (email, password, remember_me = false) => {
     await dispatch(
       authActions.authenticate({ token: data.token, user: data.data.user })
     );
-    await dispatch(
-      deviceActions.setDeviceData({
-        devices: data.data.devices,
-        selectedDevice_id: data.data.devices[0].device_imei,
-      })
-    );
+    // await dispatch(
+    //   deviceActions.setDeviceData({
+    //     devices: data.data.devices,
+    //     selectedDevice_id: data.data.devices[0].device_imei,
+    //   })
+    // );
     // authenticate(data.token, data.data.user, +data.expiresIn);
     dispatch(setLogoutTimer(+data.expiresIn));
 
