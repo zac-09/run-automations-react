@@ -46,7 +46,7 @@ const AddDeviceForm = (props) => {
       setTimeout(() => {
         setIsLoading(false);
         props.onClose();
-      }, 3000);
+      }, 2000);
     } catch (error) {
       setIsLoading(false);
     }

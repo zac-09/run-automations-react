@@ -68,6 +68,7 @@ function App() {
               <Alert
                 severity={notification.alertType}
                 onClose={closeNotificationHandler}
+                style={{ zIndex: 1000000 }}
               >
                 <span className="notification__text">
                   {notification.alertMessage}
@@ -88,6 +89,7 @@ function App() {
             <Alert
               severity={notification.alertType}
               onClose={closeNotificationHandler}
+              style={{ zIndex: 1000000 }}
             >
               <span className="notification__text">
                 {notification.alertMessage}

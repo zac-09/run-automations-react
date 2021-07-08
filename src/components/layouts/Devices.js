@@ -11,9 +11,11 @@ import IconButton from "./../UI/IconButton";
 import ReactExport from "react-data-export";
 import { getAllUserDevices, deleteDevice } from "./../../store/actions/device";
 import LoadingSpinner from "./../UI/LoadingSpinner";
+import ConfirmPasswordForm from "../UI/ConfirmPasswordForm";
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
 const customStyles = {
   headCells: {
     style: {
@@ -80,14 +82,15 @@ const Devices = (props) => {
   const dispatch = useDispatch();
   const [isRowSelected, setIsRowSelected] = useState(false);
   const [searchParam, setSearchParam] = useState("");
-  const [devicesToDelete, setDevicesToDelete] = useState([]);
+  const [selectedDevices, setSelectedDevices] = useState([]);
   const data = useSelector((state) => state.devices.devices);
   const [isDeleting, setIsDeleting] = useState(false);
   const [addDeviceModalVisible, setAddModalVisible] = useState(false);
+  const [deleteDeviceModalVisible, setDeleteModalVisible] = useState(false);
+
   const [clearSelectedRows, setClearSelectedRows] = useState(false);
-  // const [devicesData, setDevicesData] = useState(
-  //   useSelector((state) => state.devices.devices)
-  // );
+  const [isMultiSelect, setIsMultiselect] = useState(false);
+  const [confirmDeleting, setConfirmDeleting] = useState(false);
   const newData = data.filter((device) => {
     return device.device_name.search(searchParam) > -1;
   });
@@ -97,6 +100,9 @@ const Devices = (props) => {
   };
   const onCloseModal = () => {
     setAddModalVisible(false);
+  };
+  const onCloseDeleteModal = () => {
+    setDeleteModalVisible(false);
   };
   const onSubmitFormHandler = (name, location, type) => {
     console.log("form sucessfully submited", name, location, type);
@@ -110,27 +116,34 @@ const Devices = (props) => {
     } else {
       setIsRowSelected(false);
     }
-
-    setDevicesToDelete(rowsStatus.selectedRows);
+    if (rowsStatus.selectedCount > 1) {
+      setIsMultiselect(true);
+    } else {
+      setIsMultiselect(false);
+    }
+    setSelectedDevices(rowsStatus.selectedRows);
 
     console.log("the rows are", rowsStatus);
   };
   const deleteDevicesHandler = () => {
-    if (!devicesToDelete || devicesToDelete.length === 0) {
+    if (!selectedDevices || selectedDevices.length === 0) {
       return;
     }
+
     try {
       setIsDeleting(true);
+
       setTimeout(() => {
-        devicesToDelete.forEach((device) => {
+        selectedDevices.forEach((device) => {
           dispatch(deleteDevice(device.device_imei));
         });
         setIsDeleting(false);
-        setClearSelectedRows(true);
-      }, 4000);
+        setDeleteModalVisible(false);
+      }, 2000);
     } catch (err) {
       setIsDeleting(false);
     }
+    setClearSelectedRows(true);
   };
   return (
     <div className={styles["container"]}>
@@ -174,13 +187,24 @@ const Devices = (props) => {
         </div>
 
         <div className={styles["container__header--btn"]}>
+          {!isMultiSelect && isRowSelected && (
+            <IconButton
+              icon="edit"
+              label="edit device"
+              style={`${styles["btn"]} ${styles["btn--edit"]}   `}
+              iconStyle={styles["btn--icon"]}
+              onClick={deleteDevicesHandler}
+            />
+          )}
           {isRowSelected && !isDeleting && (
             <IconButton
               icon="bin"
-              label="delete device"
-              style={styles["delete__btn"]}
-              iconStyle={styles["delete__btn--icon"]}
-              onClick={deleteDevicesHandler}
+              label={`delete device${isMultiSelect ? "s" : ""}`}
+              style={`${styles["btn"]} ${styles["btn--delete"]}   `}
+              iconStyle={styles["btn--icon"]}
+              onClick={() => {
+                setDeleteModalVisible(true);
+              }}
             />
           )}
           <InlineButton label="register device" onClick={onAddDeviceHandler} />
@@ -218,6 +242,25 @@ const Devices = (props) => {
           <AddDeviceForm
             onSubmit={onSubmitFormHandler}
             onClose={onCloseModal}
+          />
+        </Modal>
+      )}
+      {deleteDeviceModalVisible && (
+        <Modal
+          onClose={onCloseDeleteModal}
+          style={styles["delete__device__form"]}
+        >
+          <div className={styles["form__heading__delete"]}>
+            <sapn>{`Are you sure you want to delete device${
+              isMultiSelect ? "s" : ""
+            }?`}</sapn>
+            <svg class={styles["close"]} onClick={onCloseDeleteModal}>
+              <use href={`${sprite}#icon-cross`}></use>
+            </svg>
+          </div>
+          <ConfirmPasswordForm
+            onClose={onCloseDeleteModal}
+            onDeleteDevices={deleteDevicesHandler}
           />
         </Modal>
       )}

@@ -22,11 +22,14 @@ const deviceSlice = createSlice({
       state.current = action.payload.current;
       state.power = action.payload.power;
       state.createdAt = action.payload.createdAt;
-      state.selectedDevice_id= action.payload.selectedDevice_id
+      state.selectedDevice_id = action.payload.selectedDevice_id;
     },
-    
+
     setDevices(state, action) {
       state.devices = action.payload.devices;
+    },
+    setNewSelectedDevice(state, action) {
+      state.selectedDevice_id = action.payload.device_imei;
     },
   },
 });
