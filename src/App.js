@@ -23,6 +23,7 @@ function App() {
     (device) => device.device_imei === deviceData.selectedDevice_id
   );
   console.log("the selected device is", selectedDevice);
+  const bgColor = useSelector(state => state.darkMode.backgroundColor)
   const isLoggedIn = auth.isLoggedIn;
   const dispatch = useDispatch();
   const closeNotificationHandler = () => {
@@ -99,7 +100,7 @@ function App() {
           <div className="container">
             <Sidebar />
 
-            <div className="dashboard">
+            <div className="dashboard" style={{backgroundColor : bgColor}}>
               <Route path="/dashboard" exact>
                 {/* <Header
                   title={`Device: ${
