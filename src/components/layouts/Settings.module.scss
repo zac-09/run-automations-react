@@ -1,0 +1,19 @@
+.device__activity {
+    display: flex;
+    align-items: center;
+    margin: 1rem 2rem;
+    justify-content: space-between;
+    // border-bottom: 3px solid var(--color-grey-light-3);
+    height: 5rem;
+    &__relay {
+      font-size: 2rem;
+      font-weight: 300;
+      color: inherit;
+      display: inline-block;
+      margin-top: 0.3rem;
+    }
+    &__switch {
+      display: flex;
+      // align-items: center;
+    }
+  }

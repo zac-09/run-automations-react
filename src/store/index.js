@@ -3,6 +3,7 @@ import authSlice from "./reducers/auth";
 import deviceSlice from "./reducers/device";
 import notificationSlice from "./reducers/notification";
 import switchSlice from "./reducers/switch";
+import darkModeSlice from './reducers/darkMode'
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     notification: notificationSlice.reducer,
     devices: deviceSlice.reducer,
     switch: switchSlice.reducer,
+    darkMode: darkModeSlice
   },
 });
 // export const url = "http://localhost:5000/api/v1";
