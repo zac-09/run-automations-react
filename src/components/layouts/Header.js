@@ -12,10 +12,9 @@ const Header = (props) => {
     <Fragment>
       <header className={styles["header"]}>
         {/* <img src={logo} alt="header logo" className={styles["header__logo"]} /> */}
-        <div style={{ width: "100%" }}>{props.select}</div>
+        {props.select && <div>{props.select}</div>}
 
         <h2 className={styles["header__heading"]}>
-
           {props.title}
           {props.device_imei && (
             <span className={styles["header__heading--device-name"]}>

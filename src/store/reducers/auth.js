@@ -4,6 +4,7 @@ const intialState = {
   token: null,
   isLoggedIn: false,
   user: {},
+  districts: [],
 };
 
 const authSlice = createSlice({
@@ -20,6 +21,9 @@ const authSlice = createSlice({
       state.token = null;
       state.isLoggedIn = false;
       state.user = null;
+    },
+    setDistricts(state, action) {
+      state.districts = action.payload.districts;
     },
   },
 });

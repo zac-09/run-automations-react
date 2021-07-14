@@ -32,7 +32,7 @@
       rgba(#fff, 0.9) 50%,
       transparent 50%
     ),
-    url(../../assets/newbg.jpg);
+    url(../../assets/newbg2.jpg);
   background-size: 113.5%;
   border-radius: 5px;
   box-shadow: 0 1.5rem 4rem rgba(#000, 0.15);
@@ -44,7 +44,7 @@
   justify-content: flex-end;
   flex-direction: column;
   // margin-left: 3rem;
- 
+
   &__heading {
     position: absolute;
     top: 10%;
@@ -67,9 +67,8 @@
     margin-top: 2.5rem;
     margin-left: 3rem;
   }
-  &__spinner{
+  &__spinner {
     margin-left: 6rem;
-
   }
   &__input {
     font-family: inherit;
@@ -114,4 +113,29 @@
     visibility: hidden;
     transform: translateY(-4rem);
   }
+}
+
+@keyframes moveIn {
+  0% {
+    transform: translateY(10rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0);
+    opacity: 1;
+  }
+}
+@keyframes moveLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0);
+    opacity: 1;
+  }
+}
+.error {
+  font-size: 1.4rem;
+  color: red;
 }

@@ -7,6 +7,7 @@ import DataTable from "react-data-table-component";
 import { useDispatch, useSelector } from "react-redux";
 import sprite from "./../../assets/sprite.svg";
 import AddDeviceForm from "../UI/AddDeviceForm";
+import EditDeviceForm from "./../UI/EditDeviceForm";
 import IconButton from "./../UI/IconButton";
 import ReactExport from "react-data-export";
 import { getAllUserDevices, deleteDevice } from "./../../store/actions/device";
@@ -37,12 +38,22 @@ const columns = [
     ),
   },
   {
-    name: "Device_name",
+    name: "name",
     selector: "device_name",
     sortable: true,
     cell: (row) => (
       <div data-tag="allowRowEvents">
-        <div style={{ fontSize: "1.5rem" }}>{row.device_name}</div>
+        <div style={{ fontSize: "1.4rem" }}>{row.device_name}</div>
+      </div>
+    ),
+  },
+  {
+    name: "location",
+    selector: "location",
+    sortable: true,
+    cell: (row) => (
+      <div data-tag="allowRowEvents">
+        <div style={{ fontSize: "1.5rem" }}>{row.location}</div>
       </div>
     ),
   },
@@ -86,6 +97,8 @@ const Devices = (props) => {
   const data = useSelector((state) => state.devices.devices);
   const [isDeleting, setIsDeleting] = useState(false);
   const [addDeviceModalVisible, setAddModalVisible] = useState(false);
+  const [editDeviceModalVisible, setEditModalVisible] = useState(false);
+
   const [deleteDeviceModalVisible, setDeleteModalVisible] = useState(false);
 
   const [clearSelectedRows, setClearSelectedRows] = useState(false);
@@ -98,12 +111,21 @@ const Devices = (props) => {
   const onAddDeviceHandler = () => {
     setAddModalVisible(true);
   };
+  const onEditDeviceHandler = () => {
+    setEditModalVisible(true);
+  };
   const onCloseModal = () => {
     setAddModalVisible(false);
   };
   const onCloseDeleteModal = () => {
     setDeleteModalVisible(false);
   };
+  const onCloseEditModal = () => {
+    setEditModalVisible(false);
+  };
+  // const editDeviceHandler = ()=>{
+
+  // }
   const onSubmitFormHandler = (name, location, type) => {
     console.log("form sucessfully submited", name, location, type);
   };
@@ -193,7 +215,7 @@ const Devices = (props) => {
               label="edit device"
               style={`${styles["btn"]} ${styles["btn--edit"]}   `}
               iconStyle={styles["btn--icon"]}
-              onClick={deleteDevicesHandler}
+              onClick={onEditDeviceHandler}
             />
           )}
           {isRowSelected && !isDeleting && (
@@ -232,7 +254,7 @@ const Devices = (props) => {
         </div>
       </div>
       {addDeviceModalVisible && (
-        <Modal onClose={onCloseModal}>
+        <Modal onClose={onCloseModal} style={styles["add__device__form"]}>
           <div className={styles["form__heading"]}>
             <sapn>Register new device</sapn>
             <svg class={styles["close"]} onClick={onCloseModal}>
@@ -242,6 +264,21 @@ const Devices = (props) => {
           <AddDeviceForm
             onSubmit={onSubmitFormHandler}
             onClose={onCloseModal}
+          />
+        </Modal>
+      )}
+      {editDeviceModalVisible && (
+        <Modal onClose={onCloseEditModal} style={styles["add__device__form"]}>
+          <div className={styles["form__heading"]}>
+            <sapn>Edit device details</sapn>
+            <svg class={styles["close"]} onClick={onCloseEditModal}>
+              <use href={`${sprite}#icon-cross`}></use>
+            </svg>
+          </div>
+          <EditDeviceForm
+            onSubmit={onSubmitFormHandler}
+            onClose={onCloseEditModal}
+            device={selectedDevices}
           />
         </Modal>
       )}

@@ -6,23 +6,42 @@ import { useDispatch } from "react-redux";
 import { login } from "../../store/actions/auth";
 import { useHistory } from "react-router-dom";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
+import useInput from "./../../hooks/use-input";
+const validateEmail = (email) => email.trim() !== "" ;
+const validatePassword = (password) => password.trim() !== "";
 const SignIn = (props) => {
+  const {
+    value: emailValue,
+    hasError: emailHasError,
+    inputBlurHandler: emailInputBlurHandler,
+    valueChangeHandler: emailValueChangeHandler,
+    reset: resetEmail,
+    isValid: emailIsValid,
+  } = useInput(validateEmail);
+  const {
+    value: passwordValue,
+    hasError: passwordHasError,
+    inputBlurHandler: passwordInputBlurHandler,
+    valueChangeHandler: passwordValueChangeHandler,
+    reset: resetPassword,
+    isValid: passwordIsValid,
+  } = useInput(validatePassword);
+
   const history = useHistory();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  // const [email, setEmail] = useState();
+  // const [password, setPassword] = useState();
   const [loading, setIsLoading] = useState(false);
-  const passwordChangeHandler = (event) => {
-    setPassword(event.target.value);
-  };
-  const emailChangeHandler = (event) => {
-    setEmail(event.target.value);
-  };
+
   const dispatch = useDispatch();
+  const formIsValid = emailIsValid && passwordIsValid;
   const submitHandler = async (event) => {
+    if (!formIsValid) {
+      return;
+    }
     event.preventDefault();
     try {
       setIsLoading(true);
-      await dispatch(login(email, password));
+      await dispatch(login(emailValue, passwordValue));
       history.replace("/");
 
       setIsLoading(false);
@@ -43,8 +62,9 @@ const SignIn = (props) => {
           >
             <div className={styles["form__container__group"]}>
               <input
-                onChange={emailChangeHandler}
-                value={email}
+                onChange={emailValueChangeHandler}
+                value={emailValue}
+                onBlur={emailInputBlurHandler}
                 id="email"
                 type="email"
                 placeholder="Email"
@@ -53,11 +73,17 @@ const SignIn = (props) => {
               <label for="email" className={styles["form__container__label"]}>
                 Email
               </label>
+              {emailHasError && (
+                <span className={styles["error"]}>
+                  Please provide a valid email
+                </span>
+              )}
             </div>
             <div className={styles["form__container__group"]}>
               <input
-                onChange={passwordChangeHandler}
-                value={password}
+                onChange={passwordValueChangeHandler}
+                value={passwordValue}
+                onBlur={passwordInputBlurHandler}
                 id="password"
                 type="password"
                 placeholder="Password"
@@ -69,6 +95,11 @@ const SignIn = (props) => {
               >
                 Password
               </label>
+              {passwordHasError && (
+                <span className={styles["error"]}>
+                  please provide valid password
+                </span>
+              )}
             </div>
             {!loading && (
               <FormButton

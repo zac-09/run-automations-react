@@ -247,8 +247,51 @@ export const confirmPassword = (password) => {
       );
 
       throw new Error(error.message);
-    
     }
     // const data = await response.json();
+  };
+};
+
+export const updateDeviceDetails = (
+  device_name,
+  location,
+  device_type,
+  device_imei
+) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const token = state.auth.token;
+    const response = await fetch(`${url}/devices/updateDevice`, {
+      method: "PUT",
+      headers: new Headers({
+        Authorization: "Bearer " + token,
+        "Content-type": "application/json",
+      }),
+      body: JSON.stringify({
+        device_name,
+        location,
+        device_type,
+        device_imei,
+      }),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      //   console.log(error.message);
+      dispatch(
+        await notificationActions.showAlert({
+          type: "error",
+          message: error.message,
+        })
+      );
+
+      throw new Error(error.message);
+    }
+    dispatch(
+      notificationActions.showAlert({
+        type: "info",
+        message: "device info successfully updated ",
+      })
+    );
+    dispatch(getAllUserDevices());
   };
 };

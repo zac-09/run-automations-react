@@ -14,7 +14,7 @@ export const authenticate = (user, token, devices, expiryTime) => {
     //     devices: devices,
     //     selectedDevice_id: devices[0].device_imei,
     //   })
-    // ); 
+    // );
     dispatch(setLogoutTimer(expiryTime));
   };
 };
@@ -87,5 +87,20 @@ export const login = (email, password, remember_me = false) => {
       data.data.devices,
       expirationDate
     );
+  };
+};
+
+export const getAllDistricts = () => {
+  return async (dispatch) => {
+    const response = await fetch(`${url}/users/districts`);
+    const data = await response.json();
+    const districts = data.districts.map((district) => {
+      return {
+        label: `${district.name} (${district.region})`,
+        value: district.name,
+      };
+    });
+
+    dispatch(authActions.setDistricts({ districts }));
   };
 };

@@ -1,18 +1,36 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import styles from "./AddDeviceForm.module.scss";
 import IconButton from "./../UI/IconButton";
 import LoadingSpinner from "./LoadingSpinner";
 import useInput from "../../hooks/use-input";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addDevice } from "../../store/actions/device";
+import DeviceSvg from "./../../assets/circuit.svg";
+import Select, { components } from "react-select";
 
+import { getAllDistricts } from "../../store/actions/auth";
 const validateDeviceName = (name) => name.trim() !== "";
 const validateLocationName = (location) => location.trim() !== "";
+const Control = ({ children, ...props }) => {
+  const { emoji, onEmojiClick } = props.selectProps;
+  const style = { cursor: "pointer", marginLeft: "1.2rem" };
 
+  return (
+    <components.Control {...props}>
+      <span onMouseDown={onEmojiClick} style={style}>
+        {emoji}
+      </span>
+      {children}
+    </components.Control>
+  );
+};
 const AddDeviceForm = (props) => {
   const [loading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const districts = useSelector((state) => state.auth.districts);
   const [radio, setRadio] = useState("iot device");
+  const [district, setDistrict] = useState("");
+  const [districtHasEror, setDistrictHasError] = useState(false);
   const radioChangeHandler = (event) => {
     console.log("the event is", event.target.value);
     setRadio(event.target.value);
@@ -25,24 +43,24 @@ const AddDeviceForm = (props) => {
     valueChangeHandler: deviceNameValueChangeHandler,
     inputBlurHandler: deviceInputBlurChnageHandler,
   } = useInput(validateDeviceName);
-  const {
-    value: deviceLocation,
-    hasError: deviceLocationHasError,
-    isValid: deviceLocationIsValid,
-    reset: resetDeviceLocation,
-    valueChangeHandler: deviceLocationValueChangeHandler,
-    inputBlurHandler: LocationInputBlurChnageHandler,
-  } = useInput(validateLocationName);
-  const formIsValid = deviceNameIsValid && deviceLocationIsValid;
+
+  const formIsValid = deviceNameIsValid && !districtHasEror;
+  useEffect(() => {
+    dispatch(getAllDistricts());
+    // console.log("the districts are", districts);
+  }, []);
   const submitFormHandler = (event) => {
+    if (district.trim() === "") {
+      setDistrictHasError(true);
+    }
     event.preventDefault();
-    console.log("successfully reached");
+    console.log("successfully reached",);
     if (!formIsValid) {
       return;
     }
     setIsLoading(true);
     try {
-      dispatch(addDevice(Deivcename, deviceLocation, radio));
+      dispatch(addDevice(Deivcename, district, radio));
       setTimeout(() => {
         setIsLoading(false);
         props.onClose();
@@ -52,8 +70,11 @@ const AddDeviceForm = (props) => {
     }
     // props.onSubmit(Deivcename, deviceLocation, radio);
 
-    resetDeviceLocation();
     resetDeviceName();
+  };
+  const onDistrictChangeHandler = (option) => {
+    console.log("selected district is",option)
+    setDistrict(option.value);
   };
 
   return (
@@ -126,15 +147,18 @@ const AddDeviceForm = (props) => {
           <label htmlFor="name" className={styles["form__label"]}>
             Location
           </label>
-          <input
-            id="name"
-            className={styles["form__input"]}
-            value={deviceLocation}
-            onChange={deviceLocationValueChangeHandler}
-            onBlur={LocationInputBlurChnageHandler}
-            required
+   
+          <Select
+            options={districts}
+            className={styles["select"]}
+            styles={styles}
+            emoji={"📍"}
+            components={{ Control }}
+            placeholder={"select district"}
+            noOptionsMessage={(message) => "no districts found"}
+            onChange={onDistrictChangeHandler}
           />
-          {deviceLocationHasError && (
+          {districtHasEror && (
             <span className={styles["error"]}>Location must be selected</span>
           )}
         </div>
@@ -150,11 +174,15 @@ const AddDeviceForm = (props) => {
           />
         )}
         {loading && (
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            style={{ display: "flex", marginTop: "2rem", marginLeft: "6.5rem" }}
+          >
             <LoadingSpinner />
           </div>
         )}
       </form>
+      <img src={DeviceSvg} className={styles["svg"]} />
+      {/* <DeviceSvg style={{ width: "4rem", height: "4rem" }}  /> */}
     </Fragment>
   );
 };
