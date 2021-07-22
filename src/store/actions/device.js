@@ -3,7 +3,6 @@ import { connectServer } from "../../utils/socket-client";
 import socketIOClient from "socket.io-client";
 
 const GET_DEVICE_PARAMS_EVENT = "GET_DEVICE_PARAMATERS";
-const socket = connectServer(socketUrl);
 export const getAllUserDevices = () => {
   return async (dispatch, getState) => {
     const state = getState();
@@ -18,12 +17,15 @@ export const getAllUserDevices = () => {
       const error = await response.json();
       //   console.log(error.message);
       dispatch(
-        await notificationActions.showAlert({
+        await notificationActions.showCardNotification({
           type: "error",
           message: error.message,
+          title: "Error",
         })
       );
-
+      setTimeout(() => {
+        dispatch(notificationActions.hideCardNotification());
+      }, [4000]);
       throw new Error(error.message);
     }
     const data = await response.json();
@@ -51,9 +53,10 @@ export const getDeviceData = () => {
     ) {
       if (!state.devices.devices || state.devices.devices.length === 0) {
         dispatch(
-          notificationActions.showAlert({
-            type: "error",
+          notificationActions.showCardNotification({
+            type: "warning",
             message: "no devices found",
+            title: "caution",
           })
         );
         return;
@@ -75,21 +78,29 @@ export const getDeviceData = () => {
       const error = await response.json();
       //   console.log(error.message);
       dispatch(
-        await notificationActions.showAlert({
+        await notificationActions.showCardNotification({
           type: "error",
-          message: "error fetching device data " + error.message,
+          message: error.message,
+          title: "error fetching data",
         })
       );
+      // setTimeout(() => {
+      //   dispatch(notificationActions.hideCardNotification());
+      // }, [3000]);
       return;
     }
     const data = await response.json();
     if (!data.data) {
       await dispatch(
-        notificationActions.showAlert({
-          type: "error",
+        notificationActions.showCardNotification({
+          type: "warning",
           message: "selected device has not logged any data yet",
+          title: "Device not logging",
         })
       );
+      setTimeout(() => {
+        dispatch(notificationActions.hideCardNotification());
+      }, [4000]);
       await dispatch(
         deviceActions.upadateDeviceParameters({
           current: 0,
@@ -110,6 +121,7 @@ export const getDeviceData = () => {
         selectedDevice_id: device_id,
       })
     );
+    const socket = connectServer(socketUrl);
 
     socket.on(`${GET_DEVICE_PARAMS_EVENT}-${device_id}`, async (data) => {
       console.log(
@@ -132,6 +144,8 @@ export const getDeviceData = () => {
 
 export const disconnectsocket = () => {
   console.log("disconnecting socket ...");
+  const socket = connectServer(socketUrl);
+
   socket.disconnect();
 };
 
@@ -155,19 +169,24 @@ export const addDevice = (device_name, location, device_type) => {
       const error = await response.json();
       //   console.log(error.message);
       dispatch(
-        await notificationActions.showAlert({
+        await notificationActions.showCardNotification({
           type: "error",
           message: error.message,
+          title: "An error occured",
         })
       );
+      setTimeout(() => {
+        dispatch(notificationActions.hideCardNotification());
+      }, [4000]);
 
       throw new Error(error.message);
     }
     const data = await response.json();
     await dispatch(
-      notificationActions.showAlert({
-        type: "info",
+      notificationActions.showCardNotification({
+        type: "success",
         message: "successfully added device",
+        title: "success",
       })
     );
     dispatch(
@@ -196,18 +215,23 @@ export const deleteDevice = (device_imei) => {
       const error = await response.json();
       //   console.log(error.message);
       dispatch(
-        await notificationActions.showAlert({
+        await notificationActions.showCardNotification({
           type: "error",
           message: error.message,
+          title: "Error deleting",
         })
       );
+      setTimeout(() => {
+        dispatch(notificationActions.hideCardNotification());
+      }, [4000]);
 
       throw new Error(error.message);
     }
     dispatch(
-      notificationActions.showAlert({
-        type: "info",
+      notificationActions.showCardNotification({
+        type: "success",
         message: "device successfully deleted",
+        title: "success",
       })
     );
     dispatch(getAllUserDevices());
@@ -218,6 +242,7 @@ export const changeSelectedDevice = (device_imei) => {
   return async (dispatch) => {
     await dispatch(deviceActions.setNewSelectedDevice({ device_imei }));
     await dispatch(getDeviceData());
+    await dispatch(getDeviceMonthlyData(2021));
   };
 };
 
@@ -240,12 +265,15 @@ export const confirmPassword = (password) => {
       const error = await response.json();
       //   console.log(error.message);
       dispatch(
-        await notificationActions.showAlert({
+        await notificationActions.showCardNotification({
           type: "error",
           message: error.message,
+          title: "Authentication Error",
         })
       );
-
+      setTimeout(() => {
+        dispatch(notificationActions.hideCardNotification());
+      }, [4000]);
       throw new Error(error.message);
     }
     // const data = await response.json();
@@ -278,20 +306,269 @@ export const updateDeviceDetails = (
       const error = await response.json();
       //   console.log(error.message);
       dispatch(
-        await notificationActions.showAlert({
+        await notificationActions.showCardNotification({
           type: "error",
           message: error.message,
+          title: "Error while updating",
         })
       );
-
+      setTimeout(() => {
+        dispatch(notificationActions.hideCardNotification());
+      }, [4000]);
       throw new Error(error.message);
     }
     dispatch(
-      notificationActions.showAlert({
-        type: "info",
+      notificationActions.showCardNotification({
+        type: "success",
         message: "device info successfully updated ",
+        title: "success",
       })
     );
+    setTimeout(() => {
+      dispatch(notificationActions.hideCardNotification());
+    }, [4000]);
     dispatch(getAllUserDevices());
+  };
+};
+
+export const getDeviceAnnualData = (year) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const token = state.auth.token;
+    let device_id = state.devices.selectedDevice_id;
+
+    const response = await fetch(
+      `${url}/data/getDeviceStats/annual?device_id=${device_id}&year=${year}`,
+      {
+        method: "GET",
+        headers: new Headers({
+          Authorization: "Bearer " + token,
+          "Content-type": "application/json",
+        }),
+      }
+    );
+    const data = await response.json();
+
+    const chartData = data;
+    console.log("the chart data is ", data);
+  };
+};
+export const getDeviceMonthlyData = (year) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const token = state.auth.token;
+    let device_id = state.devices.selectedDevice_id;
+    console.log("getting monthly dara");
+    const response = await fetch(
+      `${url}/data/getDeviceStats/monthly?device_id=${device_id}&year=${year}`,
+      {
+        method: "GET",
+        headers: new Headers({
+          Authorization: "Bearer " + token,
+          "Content-type": "application/json",
+        }),
+      }
+    );
+    if (!response.ok) {
+      const error = await response.json();
+      //   console.log(error.message);
+      dispatch(
+        await notificationActions.showCardNotification({
+          type: "error",
+          message: error.message,
+          title: "Error while getting chart data ",
+        })
+      );
+      dispatch(deviceActions.setDeviceChartData({ chartData: {} }));
+
+      // setTimeout(() => {
+      //   dispatch(notificationActions.hideCardNotification());
+      // }, [3000]);
+      // throw new Error(error.message);
+      return;
+    }
+    const data = await response.json();
+    if (
+      data.data.length === 0 ||
+      data.data === undefined ||
+      data.data === null
+    ) {
+      dispatch(
+        await notificationActions.showCardNotification({
+          type: "warning",
+          message: "no chart data found device has not yet logged any data",
+          title: "No data found ",
+        })
+      );
+    }
+    const newData = {
+      labels: [],
+      datasets: [
+        {
+          label: "Power in Watts",
+          data: [],
+          fill: true,
+          backgroundColor: "#5accf0",
+          borderColor: "#5accf0",
+        },
+      ],
+    };
+    data.data.forEach((el) => {
+      newData.labels.push(el.month);
+      newData.datasets[0].data.push(el.averagePower.toFixed(2));
+    });
+    console.log("the chart data is ", newData);
+    dispatch(
+      deviceActions.setDeviceChartData({
+        chartData: newData,
+        timeRange: `Annual Power ${year}`,
+      })
+    );
+  };
+};
+export const getDeviceWeeklyData = (year, week) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const token = state.auth.token;
+    let device_id = state.devices.selectedDevice_id;
+    console.log("getting monthly dara");
+    const response = await fetch(
+      `${url}/data/getDeviceStats/weekly?device_id=${device_id}&year=${year}&week=${week}`,
+      {
+        method: "GET",
+        headers: new Headers({
+          Authorization: "Bearer " + token,
+          "Content-type": "application/json",
+        }),
+      }
+    );
+    if (!response.ok) {
+      const error = await response.json();
+      //   console.log(error.message);
+      dispatch(
+        await notificationActions.showCardNotification({
+          type: "error",
+          message: error.message,
+          title: "Error while getting chart data ",
+        })
+      );
+      dispatch(deviceActions.setDeviceChartData({ chartData: {} }));
+
+      // setTimeout(() => {
+      //   dispatch(notificationActions.hideCardNotification());
+      // }, [3000]);
+      // throw new Error(error.message);
+      return;
+    }
+    const data = await response.json();
+    if (
+      data.data.length === 0 ||
+      data.data === undefined ||
+      data.data === null
+    ) {
+      dispatch(
+        await notificationActions.showCardNotification({
+          type: "warning",
+          message: "no chart data found device has not yet logged any data",
+          title: "No data found ",
+        })
+      );
+    }
+    const newData = {
+      labels: [],
+      datasets: [
+        {
+          label: "Power in Watts",
+          data: [],
+          fill: true,
+          backgroundColor: "#5accf0",
+          borderColor: "#5accf0",
+        },
+      ],
+    };
+    data.data.forEach((el) => {
+      newData.labels.push(el.dayOfWeek);
+      newData.datasets[0].data.push(el.averagePower.toFixed(2));
+    });
+    console.log("the chart data is ", newData);
+    dispatch(
+      deviceActions.setDeviceChartData({
+        chartData: newData,
+        timeRange: `Weekly Power ${year}`,
+      })
+    );
+  };
+};
+export const getDeviceRealtimeData = (year, month, day) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const token = state.auth.token;
+    let device_id = state.devices.selectedDevice_id;
+    console.log("getting monthly dara");
+    const response = await fetch(
+      `${url}/data/getDeviceStats/realtime?device_id=${device_id}&year=${year}&month=${month}&day=${day}`,
+      {
+        method: "GET",
+        headers: new Headers({
+          Authorization: "Bearer " + token,
+          "Content-type": "application/json",
+        }),
+      }
+    );
+    if (!response.ok) {
+      const error = await response.json();
+      //   console.log(error.message);
+      dispatch(
+        await notificationActions.showCardNotification({
+          type: "error",
+          message: error.message,
+          title: "Error while getting chart data ",
+        })
+      );
+      dispatch(deviceActions.setDeviceChartData({ chartData: {} }));
+
+      // setTimeout(() => {
+      //   dispatch(notificationActions.hideCardNotification());
+      // }, [3000]);
+      // throw new Error(error.message);
+      return;
+    }
+    const data = await response.json();
+    if (
+      data.data.length === 0 ||
+      data.data === undefined ||
+      data.data === null
+    ) {
+      dispatch(
+        await notificationActions.showCardNotification({
+          type: "warning",
+          message: "no chart data found device has not yet logged any data",
+          title: "No data found ",
+        })
+      );
+    }
+    const newData = {
+      labels: [],
+      datasets: [
+        {
+          label: "Power in Watts",
+          data: [],
+          fill: true,
+          backgroundColor: "#5accf0",
+          borderColor: "#5accf0",
+        },
+      ],
+    };
+    data.data.forEach((el) => {
+      newData.labels.push(el.time);
+      newData.datasets[0].data.push(el.averagePower.toFixed(2));
+    });
+    console.log("the chart data is ", newData);
+    dispatch(
+      deviceActions.setDeviceChartData({
+        chartData: newData,
+        timeRange: `Real-time Power `,
+      })
+    );
   };
 };

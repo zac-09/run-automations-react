@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "@material-ui/lab";
 import { notificationActions } from "./store";
 import Home from "./pages/Home";
+import Notification from "./components/UI/Notification";
 function App() {
   const auth = useSelector((state) => state.auth);
   console.log("from app", auth);
@@ -28,6 +29,15 @@ function App() {
   const closeNotificationHandler = () => {
     dispatch(notificationActions.hideAlert());
   };
+  const closeCardHandler = () => {
+    dispatch(notificationActions.hideCardNotification());
+  };
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(notificationActions.hideCardNotification());
+      dispatch(notificationActions.hideAlert());
+    }, [4000]);
+  }, []);
   useEffect(() => {
     const tryLogin = () => {
       const userData = localStorage.getItem("userData");
@@ -96,6 +106,15 @@ function App() {
               </span>
             </Alert>
           )}
+          {notification.showCardNotification && (
+            <Notification
+              type={notification.cardNotificationType}
+              title={notification.cardNotificationTitle}
+              message={notification.cardMessage}
+              onClose={closeCardHandler}
+            />
+          )}
+
           <div className="container">
             <Sidebar />
 

@@ -5,6 +5,10 @@ const intialState = {
   showAlert: false,
   alertType: null,
   alertMessage: null,
+  showCardNotification: false,
+  cardNotificationType: null,
+  cardMessage: null,
+  cardNotificationTitle:null
 };
 const notificationSlice = createSlice({
   name: "notification",
@@ -19,6 +23,18 @@ const notificationSlice = createSlice({
       state.showAlert = false;
       state.alertType = null;
       state.alertMessage = null;
+    },
+    showCardNotification(state, action) {
+      state.showCardNotification = true;
+      state.cardNotificationType = action.payload.type;
+      state.cardMessage = action.payload.message;
+      state.cardNotificationTitle = action.payload.title;
+
+    },
+    hideCardNotification(state, action) {
+      state.showCardNotification = false;
+      state.cardNotificationType = null;
+      state.cardMessage = null;
     },
   },
 });

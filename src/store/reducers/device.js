@@ -7,6 +7,8 @@ const intialState = {
   power: 0,
   createdAt: null,
   devices: [],
+  chartData: {},
+  timeRange: "",
 };
 const deviceSlice = createSlice({
   name: "device",
@@ -23,6 +25,10 @@ const deviceSlice = createSlice({
       state.power = action.payload.power;
       state.createdAt = action.payload.createdAt;
       state.selectedDevice_id = action.payload.selectedDevice_id;
+    },
+    setDeviceChartData(state, action) {
+      state.chartData = action.payload.chartData;
+      state.timeRange = action.payload.timeRange;
     },
 
     setDevices(state, action) {

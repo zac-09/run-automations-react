@@ -95,8 +95,23 @@
   padding: 1rem 2rem;
 }
 .select {
-  padding: 2rem;
+  // padding: .2rem;
   width: 45rem;
   font-size: 1.8rem;
   // text-align: center;
+  margin-left: 1.8rem;
+}
+
+.chart__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5rem;
+  padding: 1rem;
+}
+
+.chart__select{
+  width: 25rem;
+  font-size: 1.8rem;
+  // text-align: center;
+  margin-left: 1.8rem;
 }

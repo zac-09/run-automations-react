@@ -10,6 +10,9 @@ import {
   getDeviceData,
   disconnectsocket,
   changeSelectedDevice,
+  getDeviceMonthlyData,
+  getDeviceWeeklyData,
+  getDeviceRealtimeData,
 } from "../../store/actions/device";
 import Switch from "@material-ui/core/Switch";
 import moment from "moment";
@@ -17,31 +20,6 @@ import { getSwitchData, toggleSwitch } from "../../store/actions/switch";
 import Header from "./Header";
 import Select, { components } from "react-select";
 const GET_DEVICE_PARAMS_EVENT = "GET_DEVICE_PARAMATERS";
-const data = {
-  labels: [
-    "jan",
-    "feb",
-    "mar",
-    "apr",
-    "may",
-    "jun",
-    "jul",
-    "aug",
-    "sep",
-    "oct",
-    "nov",
-    "dec",
-  ],
-  datasets: [
-    {
-      label: "Current in Amperes",
-      data: [12, 19, 3, 5, 2, 3, 5, 5, 7, 4, 5, 5, 6],
-      fill: false,
-      backgroundColor: "#5accf0",
-      borderColor: "#5accf0",
-    },
-  ],
-};
 
 const options = {
   scales: {
@@ -86,6 +64,8 @@ const Dashboard = () => {
   const selectedDevice = deviceData.devices.find(
     (device) => device.device_imei === deviceData.selectedDevice_id
   );
+  const chartData = deviceData.chartData;
+  const timeRange = deviceData.timeRange;
   const devices = deviceData.devices.map((device) => {
     return { label: device.device_name, value: device.device_imei };
   });
@@ -120,6 +100,22 @@ const Dashboard = () => {
       setIsLoading(false);
     }
   };
+  const onTimeChangeHandler = (options) => {
+    const option = options.value;
+    if (option === "weekly") {
+      const week = moment().week() - 1;
+      console.log("week is", week);
+      dispatch(getDeviceWeeklyData(2021, week));
+    } else if (option === "monthly") {
+      dispatch(getDeviceMonthlyData(2021));
+    } else if (option === "real-time") {
+      const month = moment().month() + 1;
+      const day = moment(new Date()).format("D");
+      // console.log("month and day is", month, day);
+
+      dispatch(getDeviceRealtimeData(2021, month, day));
+    }
+  };
   useEffect(() => {
     dispatch(getDeviceData());
     dispatch(getSwitchData());
@@ -127,6 +123,11 @@ const Dashboard = () => {
     return () => {
       disconnectsocket();
     };
+  }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(getDeviceMonthlyData(2021));
+    }, 5000);
   }, []);
   if (
     selectedDevice === null ||
@@ -141,17 +142,10 @@ const Dashboard = () => {
       // </div>
     );
   }
-  // if (isLoading) {
-  //   return (
 
-  //   );
-  // }
   return (
     <Fragment>
       <Header
-        // title={`Device: ${
-        //   selectedDevice ? `${selectedDevice.device_name}` : ""
-        // }`}
         select={
           <Select
             options={devices}
@@ -160,7 +154,7 @@ const Dashboard = () => {
             emoji={"💻"}
             components={{ Control }}
             placeholder={selectedDevice.device_name}
-            noOptionsMessage={(message)=>"no devices found"}
+            noOptionsMessage={(message) => "no devices found"}
             onChange={onDeviceChangeHandler}
           />
         }
@@ -196,7 +190,7 @@ const Dashboard = () => {
                 nrOfLevels={20}
                 percent={voltage}
                 // colors={["#FF5F6D", "#FFC371"]}
-                arcWidth={0.3}
+                // arcWidth={0.3}
                 formatTextValue={(value) => deviceData.voltage + "V"}
               />
               <span className={styles["card__date"]}>{cardTime}</span>
@@ -224,7 +218,10 @@ const Dashboard = () => {
               <span className={styles["device__activity__label"]}>
                 status:{" "}
                 <div className={deviceStatusClasses}>
-                  <span> {selectedDevice ? selectedDevice.logging_status : ""}</span>
+                  <span>
+                    {" "}
+                    {selectedDevice ? selectedDevice.logging_status : ""}
+                  </span>
                 </div>
               </span>
             </div>
@@ -249,16 +246,35 @@ const Dashboard = () => {
           <div className={styles["charts-div"]}>
             {/* <span className={styles["chartsContainer__heading"]}>Statistics</span> */}
             <Card styles={styles["chartsContainer"]}>
-              <h4 className={styles["card__title"]}>Anual Power</h4>
-              <Line data={data} options={options} />
+              <div className={styles["chart__header"]}>
+                <h4 className={styles["card__title"]}>{timeRange}</h4>
+                <Select
+                  options={[
+                    { label: "monthly", value: "monthly" },
+                    { label: "annualy", value: "annually" },
+                    { label: "real-time", value: "real-time" },
+                    { label: "by month", value: "by month" },
+                    { label: "weekly", value: "weekly" },
+                  ]}
+                  className={styles["chart__select"]}
+                  styles={styles}
+                  emoji={"📆"}
+                  components={{ Control }}
+                  placeholder={timeRange}
+                  noOptionsMessage={(message) => "no devices found"}
+                  onChange={onTimeChangeHandler}
+                />
+              </div>
+
+              <Line
+                height={40}
+                width={100}
+                data={chartData}
+                options={options}
+                fallbackContent="Chart could not be rendered "
+                // options={{ maintainAspectRatio: false }}
+              />
             </Card>
-            {/* <Card styles={styles["chartsContainer"]}>
-          <h4 className={styles["card__title"]}>Power</h4>
-          <Line data={data} options={options} />
-        </Card>
-        <Card styles={styles["chartsContainer"]}>
-          <h4 className={styles["card__title"]}>Power</h4>
-        </Card> */}
           </div>{" "}
         </Fragment>
       )}
