@@ -232,7 +232,7 @@ const Dashboard = () => {
             </div>
             <div className={styles["device__activity__switch"]}>
               <div>
-                <span className={styles["device__activity__relay"]}>relay</span>
+                <span className={styles["device__activity__relay"]}>Switch</span>
               </div>
               <Switch
                 checked={relay_status}

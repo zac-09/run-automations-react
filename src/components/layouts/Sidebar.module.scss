@@ -1,7 +1,7 @@
 .side-bar {
-  width: 25%;
+  width: 10%;
   display: flex;
-  flex: 0 0 20%;
+  flex: 0 0 17%;
   flex-direction: column;
   overflow: hidden;
   // justify-content: space-between;
@@ -97,8 +97,8 @@
     &--link:link,
     &--link:visited {
       text-decoration: none;
-      font-size: 1.9rem;
-      font-weight: 600;
+      font-size: 1.6rem;
+      font-weight: 300;
       color: var(--color-grey-light-1);
       margin-left: 2rem;
       display: flex;

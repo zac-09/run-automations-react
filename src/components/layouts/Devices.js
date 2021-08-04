@@ -28,7 +28,7 @@ const customStyles = {
 };
 const columns = [
   {
-    name: "device_imei",
+    name: "serial number",
     selector: "device_imei",
     sortable: true,
     cell: (row) => (
@@ -105,7 +105,9 @@ const Devices = (props) => {
   const [isMultiSelect, setIsMultiselect] = useState(false);
   const [confirmDeleting, setConfirmDeleting] = useState(false);
   const newData = data.filter((device) => {
-    return device.device_name.search(searchParam) > -1;
+    return (
+      device.device_name.toLowerCase().search(searchParam.toLowerCase()) > -1
+    );
   });
 
   const onAddDeviceHandler = () => {
