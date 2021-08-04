@@ -33,7 +33,7 @@ const columns = [
     sortable: true,
     cell: (row) => (
       <div data-tag="allowRowEvents">
-        <div style={{ fontSize: "1.4rem" }}>{row.device_imei}</div>
+        <div style={{ fontSize: "1.3rem" }}>{row.device_imei}</div>
       </div>
     ),
   },

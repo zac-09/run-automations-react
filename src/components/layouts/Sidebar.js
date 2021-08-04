@@ -31,6 +31,19 @@ const Sidebar = () => {
           </span>
         </div>
         <ul className={styles["side-bar__list"]}>
+          <li className={styles["side-bar__list--item"]}>
+            <NavLink
+              to="/home"
+              activeClassName={styles["side-bar__list--link--active"]}
+              href="#"
+              className={styles["side-bar__list--link"]}
+            >
+              <svg class={styles["side-bar__icon"]}>
+                <use href={`${sprite}#icon-home`}></use>
+              </svg>
+              <span>home</span>
+            </NavLink>
+          </li>
           <li
             className={`${styles["side-bar__list--item"]}  ${styles["side-bar__list--item--active"]}`}
           >
@@ -59,19 +72,7 @@ const Sidebar = () => {
               <span>Dashboard</span>
             </NavLink>
           </li>
-          <li className={styles["side-bar__list--item"]}>
-            <NavLink
-              to="/home"
-              activeClassName={styles["side-bar__list--link--active"]}
-              href="#"
-              className={styles["side-bar__list--link"]}
-            >
-              <svg class={styles["side-bar__icon"]}>
-                <use href={`${sprite}#icon-home`}></use>
-              </svg>
-              <span>home</span>
-            </NavLink>
-          </li>
+
           <li className={styles["side-bar__list--item"]}>
             <NavLink
               to="/account"
