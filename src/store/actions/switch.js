@@ -32,7 +32,6 @@ export const getSwitchData = () => {
       );
 
       return;
-      throw new Error(error.message);
     }
     const data = await response.json();
     if (!data.relay) {

@@ -1,6 +1,6 @@
 import { deviceActions, url, socketUrl, notificationActions } from "..";
 import { connectServer } from "../../utils/socket-client";
-import socketIOClient from "socket.io-client";
+
 
 const GET_DEVICE_PARAMS_EVENT = "GET_DEVICE_PARAMATERS";
 export const getAllUserDevices = () => {
@@ -349,7 +349,7 @@ export const getDeviceAnnualData = (year) => {
     );
     const data = await response.json();
 
-    const chartData = data;
+ 
     console.log("the chart data is ", data);
   };
 };

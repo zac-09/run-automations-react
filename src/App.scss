@@ -12,9 +12,8 @@
   --color-primary: #240090;
   --color-primary-light: #3500d3;
   --color-primary-dark: #190061;
-  --color-secondary:#25bcf3;
-  --color-secondary-light:#a2e7ec;
-
+  --color-secondary: #25bcf3;
+  --color-secondary-light: #a2e7ec;
 
   --color-grey-light-1: #faf9f9;
   --color-grey-light-2: #f4f2f2;
@@ -37,7 +36,6 @@ body {
   background-image: url(./assets/bg-main.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-
 }
 html {
   font-size: 62.5%;
@@ -48,13 +46,16 @@ html {
   // margin: 8rem auto;
   box-shadow: var(--shadow-dark);
   // border-radius: 2.3rem;
- 
+
   min-height: 100vh;
-  
+
   display: flex;
   overflow: hidden;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   flex: 1;
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
 }
 .dashboard {
   // display: inline;

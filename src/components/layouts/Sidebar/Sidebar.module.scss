@@ -5,6 +5,9 @@
   flex-direction: column;
   overflow: hidden;
   // justify-content: space-between;
+  @media (max-width: 800px) {
+    width: 100%;
+  }
   background-image: linear-gradient(
     to right bottom,
     var(--color-primary-light),
@@ -20,6 +23,14 @@
   &__logo {
     height: 12rem;
     width: 12rem;
+    @media (max-width: 970px) {
+      width: 6rem;
+      height: 6rem;
+    }
+    @media (max-width: 1320px) {
+      width: 6rem;
+      height: 6rem;
+    }
     // animation:  spin infinite 5s linear;
   }
   &__logo-box {
@@ -31,6 +42,16 @@
   &__heading {
     font-size: 1.8rem;
     color: var(--color-grey-light-3);
+    @media (max-width: 1320px) {
+      font-size: 1.8rem;
+      letter-spacing: 0.1rem;
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 970px) {
+      font-size: 1.3rem;
+      letter-spacing: 0.1rem;
+      margin-top: 2.5rem;
+    }
 
     letter-spacing: 0.2rem;
     // background-image: linear-gradient(to right, #ff00fe, #7e4141);
@@ -46,11 +67,30 @@
   &__tag-line {
     font-size: 1.3rem;
     color: var(--color-grey-light-3);
+    @media (max-width: 970px) {
+      font-size: 1rem;
+      text-align: center;
+    }
+    @media (max-width: 1320px) {
+      font-size: 1.2rem;
+      text-align: center;
+    }
   }
   &__list {
     list-style: none;
     margin-top: 4rem;
     margin-bottom: auto;
+    @media (max-width: 800px) {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+    @media (max-width: 970px) {
+      margin-top: 2rem;
+    }
+    @media (max-width: 1320px) {
+      margin-top: 3rem;
+    }
 
     &--item {
       position: relative;
@@ -72,6 +112,9 @@
       transform: scaleY(0);
       transition: transform 0.3s, width 0.3s cubic-bezier(1, 0, 0, 1) 0.2s,
         background-color 0.1s;
+      @media (max-width: 800px) {
+        height: 0;
+      }
     }
     &--link::before {
       content: "";
@@ -91,6 +134,12 @@
       border-top-right-radius: 100rem;
 
       border-bottom-left-radius: 100rem;
+      @media (max-width: 800px) {
+        // height: 100;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 0;
+      }
 
       // border-radius: 100px;
     }
@@ -104,13 +153,34 @@
       display: flex;
       align-items: center;
       text-transform: uppercase;
-      font-family: 'Nunito', sans-serif;
+      font-family: "Nunito", sans-serif;
       position: relative;
       z-index: 100;
       //   display: block;
       padding: 1.5rem 3rem;
       span {
         z-index: 100;
+        @media (max-width: 800px) {
+          // display: none;
+        }
+        @media (max-width: 550px) {
+          // font-size: 0.8rem;
+          display: none;
+        } 
+        @media (max-width: 620px) {
+         display: none;
+           }
+      }
+
+      @media (max-width: 970px) {
+        font-size: 1.2rem;
+        margin-left: 0.2rem;
+        padding: 1rem 1.2rem;
+      }
+      @media (max-width: 1320px) {
+        font-size: 1.4rem;
+        margin-left: 0.2rem;
+        padding: 1rem 1.2rem;
       }
     }
     &--item:hover::before {
@@ -119,7 +189,7 @@
     }
     &--link--active::before {
       transform: scaleY(1);
-      width: 127%; 
+      width: 127%;
     }
     // &--item:active::before {
     //   background-color: var(--color-primary-light);
@@ -131,14 +201,32 @@
     fill: currentColor;
     margin-right: 2rem;
     z-index: 10000;
+ 
+    @media (max-width: 970px) {
+      margin-right: 0.8rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+    @media (max-width: 550px) {
+      // font-size: 0.8rem;
+      width: 1.8rem;
+      height: 1.8rem;
+    } 
+    @media (max-width: 620px) {
+      width: 1.8rem;
+      height: 1.8rem;
+       }
   }
 }
 .legal {
   font-size: 1.2rem;
   // margin-left: 2rem;
-    // align-self: flex-end;
-    padding: 1rem;
-  
+  // align-self: flex-end;
+  padding: 1rem;
+  @media (max-width: 970px) {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
 }
 
 @keyframes spin {
@@ -153,4 +241,15 @@
   margin-left: 3.8rem;
   // justify-self: center;
   margin-top: 8rem;
+
+  @media (max-width: 970px) {
+    margin-left: 1.8rem;
+  }
+  @media (max-width: 1108px) {
+    margin-left: 1.8rem;
+  }
+  @media (max-width: 800px) {
+    align-self: center;
+    display: none;
+  }
 }

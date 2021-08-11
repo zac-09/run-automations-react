@@ -1,7 +1,7 @@
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import styles from "./Header.module.scss";
-import photoPlaceHolder from "./../../assets/placeholder.png";
-import sprite from "./../../assets/sprite.svg";
+import photoPlaceHolder from "./../../../assets/placeholder.png";
+import sprite from "./../../../assets/sprite.svg";
 import { useSelector } from "react-redux";
 const Header = (props) => {
   const userData = useSelector((state) => state.auth.user);

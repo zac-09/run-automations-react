@@ -1,6 +1,6 @@
-import Card from "./Card";
+import Card from "./../Card/Card";
 import styles from "./Notification.module.scss";
-import sprite from "./../../assets/sprite.svg";
+import sprite from "./../../../assets/sprite.svg";
 
 const Notification = (props) => {
   const type = props.type;

@@ -1,10 +1,10 @@
 import styles from "./ConfirmPasswordForm.module.scss";
-import IconButton from "./../UI/IconButton";
-import LoadingSpinner from "./LoadingSpinner";
-import useInput from "../../hooks/use-input";
+import IconButton from "../IconButton/IconButton";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import useInput from "../../../hooks/use-input";
 import { useDispatch } from "react-redux";
-import { Fragment, useState } from "react";
-import { confirmPassword } from "../../store/actions/device";
+import {  useState } from "react";
+import { confirmPassword } from "../../../store/actions/device";
 const validatePassword = (name) => name.trim() !== "";
 
 const ConfirmPasswordForm = (props) => {
@@ -12,7 +12,7 @@ const ConfirmPasswordForm = (props) => {
     value: password,
     hasError: passwordHasError,
     isValid: passwordIsValid,
-    reset: resetPassword,
+  
     valueChangeHandler: passwordValueChangeHandler,
     inputBlurHandler: passwordInputBlurChnageHandler,
   } = useInput(validatePassword);
@@ -24,7 +24,7 @@ const ConfirmPasswordForm = (props) => {
       return;
     }
     setIsLoading(true);
-    try {
+    try {  
       setTimeout(async () => {
         await dispatch(confirmPassword(password));
         setIsLoading(false);

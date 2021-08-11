@@ -1,5 +1,5 @@
 import React from "react";
-import sprite from "./../../assets/sprite.svg";
+import sprite from "./../../../assets/sprite.svg";
 
 import styles from "./InlineButton.module.scss";
 

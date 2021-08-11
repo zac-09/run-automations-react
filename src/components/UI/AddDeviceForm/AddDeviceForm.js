@@ -1,16 +1,16 @@
 import { Fragment, useEffect, useState } from "react";
 import styles from "./AddDeviceForm.module.scss";
-import IconButton from "./../UI/IconButton";
-import LoadingSpinner from "./LoadingSpinner";
-import useInput from "../../hooks/use-input";
+import IconButton from "./../../UI/IconButton/IconButton";
+import LoadingSpinner from "./../LoadingSpinner/LoadingSpinner";
+import useInput from "../../../hooks/use-input";
 import { useDispatch, useSelector } from "react-redux";
-import { addDevice } from "../../store/actions/device";
-import DeviceSvg from "./../../assets/circuit.svg";
+import { addDevice } from "../../../store/actions/device";
+import DeviceSvg from "./../../../assets/circuit.svg";
 import Select, { components } from "react-select";
 
-import { getAllDistricts } from "../../store/actions/auth";
+import { getAllDistricts } from "../../../store/actions/auth";
 const validateDeviceName = (name) => name.trim() !== "";
-const validateLocationName = (location) => location.trim() !== "";
+
 const Control = ({ children, ...props }) => {
   const { emoji, onEmojiClick } = props.selectProps;
   const style = { cursor: "pointer", marginLeft: "1.2rem" };
@@ -45,16 +45,16 @@ const AddDeviceForm = (props) => {
   } = useInput(validateDeviceName);
 
   const formIsValid = deviceNameIsValid && !districtHasEror;
-  useEffect(() => {
+  useEffect(() => { 
     dispatch(getAllDistricts());
     // console.log("the districts are", districts);
-  }, []);
+  }, [dispatch]);
   const submitFormHandler = (event) => {
     if (district.trim() === "") {
       setDistrictHasError(true);
     }
     event.preventDefault();
-    console.log("successfully reached",);
+    console.log("successfully reached");
     if (!formIsValid) {
       return;
     }
@@ -68,12 +68,10 @@ const AddDeviceForm = (props) => {
     } catch (error) {
       setIsLoading(false);
     }
-    // props.onSubmit(Deivcename, deviceLocation, radio);
 
     resetDeviceName();
   };
   const onDistrictChangeHandler = (option) => {
-    console.log("selected district is",option)
     setDistrict(option.value);
   };
 
@@ -147,7 +145,7 @@ const AddDeviceForm = (props) => {
           <label htmlFor="name" className={styles["form__label"]}>
             Location
           </label>
-   
+
           <Select
             options={districts}
             className={styles["select"]}
@@ -181,8 +179,7 @@ const AddDeviceForm = (props) => {
           </div>
         )}
       </form>
-      <img src={DeviceSvg} className={styles["svg"]} />
-      {/* <DeviceSvg style={{ width: "4rem", height: "4rem" }}  /> */}
+      <img src={DeviceSvg} className={styles["svg"]} alt="svg" />
     </Fragment>
   );
 };

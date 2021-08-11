@@ -3,6 +3,12 @@
   //   justify-content: space-between;
   flex-wrap: wrap;
   border-bottom: 3px solid var(--color-grey-light-3);
+  @media (max-width: 620px) {
+    align-content: center;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+  }
 }
 .card {
   max-width: 24rem;
@@ -50,6 +56,10 @@
   justify-content: space-between;
   // border-bottom: 3px solid var(--color-grey-light-3);
   height: 5rem;
+  @media (max-width: 620px) {
+  flex-direction: column;
+  height: auto;
+  }
   &__date {
     font-size: 1.4rem;
     font-weight: 700;
@@ -100,6 +110,12 @@
   font-size: 1.8rem;
   // text-align: center;
   margin-left: 1.8rem;
+  @media (max-width: 720px) {
+    width: 30rem;
+  }
+  @media (max-width: 620px) {
+    width: 100%;
+  }
 }
 
 .chart__header {
@@ -109,7 +125,7 @@
   padding: 1rem;
 }
 
-.chart__select{
+.chart__select {
   width: 25rem;
   font-size: 1.8rem;
   // text-align: center;

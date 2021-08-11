@@ -1,13 +1,13 @@
 import React, { Fragment, useState } from "react";
 import styles from "./SignIn.module.scss";
-import logo from "./../../assets/newlogo.png";
-import FormButton from "../../components/UI/FormButton";
+import logo from "./../../../assets/newlogo.png";
+import FormButton from "../../../components/UI/FormButton/FormButton";
 import { useDispatch } from "react-redux";
-import { login } from "../../store/actions/auth";
+import { login } from "../../../store/actions/auth";
 import { useHistory } from "react-router-dom";
-import LoadingSpinner from "../../components/UI/LoadingSpinner";
-import useInput from "./../../hooks/use-input";
-const validateEmail = (email) => email.trim() !== "" ;
+import LoadingSpinner from "../../../components/UI/LoadingSpinner/LoadingSpinner";
+import useInput from "../../../hooks/use-input";
+const validateEmail = (email) => email.trim() !== "";
 const validatePassword = (password) => password.trim() !== "";
 const SignIn = (props) => {
   const {
@@ -15,7 +15,7 @@ const SignIn = (props) => {
     hasError: emailHasError,
     inputBlurHandler: emailInputBlurHandler,
     valueChangeHandler: emailValueChangeHandler,
-    reset: resetEmail,
+
     isValid: emailIsValid,
   } = useInput(validateEmail);
   const {
@@ -23,13 +23,12 @@ const SignIn = (props) => {
     hasError: passwordHasError,
     inputBlurHandler: passwordInputBlurHandler,
     valueChangeHandler: passwordValueChangeHandler,
-    reset: resetPassword,
+
     isValid: passwordIsValid,
   } = useInput(validatePassword);
 
   const history = useHistory();
-  // const [email, setEmail] = useState();
-  // const [password, setPassword] = useState();
+
   const [loading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -53,7 +52,7 @@ const SignIn = (props) => {
   return (
     <Fragment>
       <div className={styles["container"]}>
-        <img src={logo} className={styles["container__logo"]} />
+        <img src={logo} className={styles["container__logo"]} alt="company logo" />
         <div className={styles["form__container"]}>
           <h1 className={styles["form__container__heading"]}>Sign in</h1>
           <form

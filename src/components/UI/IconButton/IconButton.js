@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./IconButton.module.scss";
-import sprite from "./../../assets/sprite.svg";
+import sprite from "./../../../assets/sprite.svg";
 
 const IconButton = (props) => {
   return (

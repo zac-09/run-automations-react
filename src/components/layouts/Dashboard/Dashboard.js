@@ -1,9 +1,9 @@
 import { Fragment, useEffect, useState } from "react";
 import styles from "./Dashboard.module.scss";
-import Card from "../UI/Card";
+import Card from "../../UI/Card/Card";
 import { Line } from "react-chartjs-2";
 import GaugeChart from "react-gauge-chart";
-import LoadingSpinner from "./../UI/LoadingSpinner";
+import LoadingSpinner from "./../../UI/LoadingSpinner/LoadingSpinner";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,13 +13,12 @@ import {
   getDeviceMonthlyData,
   getDeviceWeeklyData,
   getDeviceRealtimeData,
-} from "../../store/actions/device";
+} from "../../../store/actions/device";
 import Switch from "@material-ui/core/Switch";
 import moment from "moment";
-import { getSwitchData, toggleSwitch } from "../../store/actions/switch";
-import Header from "./Header";
+import { getSwitchData, toggleSwitch } from "../../../store/actions/switch";
+import Header from "./../Header/Header";
 import Select, { components } from "react-select";
-const GET_DEVICE_PARAMS_EVENT = "GET_DEVICE_PARAMATERS";
 
 const options = {
   scales: {
@@ -35,15 +34,7 @@ const options = {
 const maxCurrnet = 20;
 const maxVoltage = 240;
 const maxPower = 5000;
-const selectOption = [
-  { value: "blues", label: "Blues" },
-  { value: "rock", label: "Rock" },
-  { value: "jazz", label: "Jazz" },
-  { value: "orchestra", label: "Orchestra" },
-];
-const newStyles = {
-  control: (css) => ({ ...css, paddingLeft: "4rem" }),
-};
+
 const Control = ({ children, ...props }) => {
   const { emoji, onEmojiClick } = props.selectProps;
   const style = { cursor: "pointer", marginLeft: "1.2rem" };
@@ -123,23 +114,21 @@ const Dashboard = () => {
     return () => {
       disconnectsocket();
     };
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     setTimeout(() => {
       dispatch(getDeviceMonthlyData(2021));
     }, 5000);
-  }, []);
+  }, [dispatch]);
   if (
     selectedDevice === null ||
     !selectedDevice ||
     selectedDevice === undefined
   ) {
     return (
-      // <div className={styles["cardContainer"]}>
       <div className={styles["fallback"]}>
         <span>No devices found please go do devices page and add device!</span>
       </div>
-      // </div>
     );
   }
 
@@ -232,7 +221,9 @@ const Dashboard = () => {
             </div>
             <div className={styles["device__activity__switch"]}>
               <div>
-                <span className={styles["device__activity__relay"]}>Switch</span>
+                <span className={styles["device__activity__relay"]}>
+                  Switch
+                </span>
               </div>
               <Switch
                 checked={relay_status}

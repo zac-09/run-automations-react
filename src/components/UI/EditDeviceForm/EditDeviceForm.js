@@ -1,16 +1,16 @@
 import { Fragment, useEffect, useState } from "react";
-import styles from "./AddDeviceForm.module.scss";
-import IconButton from "./../UI/IconButton";
-import LoadingSpinner from "./LoadingSpinner";
-import useInput from "../../hooks/use-input";
+import styles from "./../AddDeviceForm/AddDeviceForm.module.scss";
+import IconButton from "../IconButton/IconButton";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import useInput from "../../../hooks/use-input";
 import { useDispatch, useSelector } from "react-redux";
-import { updateDeviceDetails } from "../../store/actions/device";
-import DeviceSvg from "./../../assets/edit.svg";
+import { updateDeviceDetails } from "../../../store/actions/device";
+import DeviceSvg from "./../../../assets/edit.svg";
 import Select, { components } from "react-select";
-import { getAllDistricts } from "../../store/actions/auth";
+import { getAllDistricts } from "../../../store/actions/auth";
 
 const validateDeviceName = (name) => name.trim() !== "";
-const validateLocationName = (location) => location.trim() !== "";
+
 const Control = ({ children, ...props }) => {
   const { emoji, onEmojiClick } = props.selectProps;
   const style = { cursor: "pointer", marginLeft: "1.2rem" };
@@ -28,7 +28,7 @@ const AddDeviceForm = (props) => {
   const [loading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const districts = useSelector((state) => state.auth.districts);
-  const [districtHasEror, setDistrictHasError] = useState(false);
+  const [districtHasEror] = useState(false);
 
   const [district, setDistrict] = useState(props.device[0].location);
   const [radio, setRadio] = useState(props.device[0].device_type);
@@ -40,7 +40,7 @@ const AddDeviceForm = (props) => {
     value: Deivcename,
     hasError: deviceNameHasError,
     isValid: deviceNameIsValid,
-    reset: resetDeviceName,
+  
     valueChangeHandler: deviceNameValueChangeHandler,
     inputBlurHandler: deviceInputBlurChnageHandler,
     hasIntialValue: deviceHasIntialValue,
@@ -81,7 +81,7 @@ const AddDeviceForm = (props) => {
     deviceHasIntialValue(props.device[0].device_name);
 
     dispatch(getAllDistricts());
-  }, []);
+  }, [dispatch]);
   return (
     <Fragment>
       <form className={styles["form"]} onSubmit={submitFormHandler}>
@@ -185,7 +185,7 @@ const AddDeviceForm = (props) => {
           </div>
         )}
       </form>
-      <img src={DeviceSvg} className={styles["svg"]} />
+      <img src={DeviceSvg} className={styles["svg"]} alt="svg" />
       {/* <DeviceSvg style={{ width: "4rem", height: "4rem" }}  /> */}
     </Fragment>
   );

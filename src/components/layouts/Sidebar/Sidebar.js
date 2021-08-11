@@ -1,15 +1,15 @@
 import { Fragment, useState } from "react";
 import styles from "./Sidebar.module.scss";
-import sprite from "./../../assets/sprite.svg";
-import logo from "./../../assets/newlogo.png";
-import Button from "../Button";
-import { NavLink, useHistory } from "react-router-dom";
+import sprite from "./../../../assets/sprite.svg";
+import logo from "./../../../assets/newlogo.png";
+import Button from "../../UI/Button/Button";
+import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../../store/actions/auth";
-import LoadingSpinner from "../UI/LoadingSpinner";
+import { logout } from "../../../store/actions/auth";
+import LoadingSpinner from "../../UI/LoadingSpinner/LoadingSpinner";
 const Sidebar = () => {
   const [loading, setIsLoading] = useState(false);
-  const history = useHistory();
+ 
   const dispatch = useDispatch();
   const logoutHandler = async () => {
     setIsLoading(true);

@@ -17,7 +17,10 @@
     text-transform: uppercase;
     transition: all 0.3s;
     position: relative;
-
+    @media (max-width: 970px) {
+      padding: 0.8rem 1.2rem;
+      font-size: 1.6rem;
+    }
   }
   &:hover {
     transform: translateY(-0.3rem);

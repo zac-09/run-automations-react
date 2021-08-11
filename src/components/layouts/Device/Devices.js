@@ -1,18 +1,21 @@
-import { useEffect, useRef, useState } from "react";
-import Modal from "./../UI/Modal";
+import { useEffect, useState } from "react";
+import Modal from "./../../UI/Modal/Modal";
 import styles from "./Device.module.scss";
-import InlineButton from "./../UI/InlineButton";
+import InlineButton from "./../../UI/InlineButton/InlineButton";
 import moment from "moment";
 import DataTable from "react-data-table-component";
 import { useDispatch, useSelector } from "react-redux";
-import sprite from "./../../assets/sprite.svg";
-import AddDeviceForm from "../UI/AddDeviceForm";
-import EditDeviceForm from "./../UI/EditDeviceForm";
-import IconButton from "./../UI/IconButton";
+import sprite from "./../../../assets/sprite.svg";
+import AddDeviceForm from "../../UI/AddDeviceForm/AddDeviceForm";
+import EditDeviceForm from "./../../UI/EditDeviceForm/EditDeviceForm";
+import IconButton from "./../../UI/IconButton/IconButton";
 import ReactExport from "react-data-export";
-import { getAllUserDevices, deleteDevice } from "./../../store/actions/device";
-import LoadingSpinner from "./../UI/LoadingSpinner";
-import ConfirmPasswordForm from "../UI/ConfirmPasswordForm";
+import {
+  getAllUserDevices,
+  deleteDevice,
+} from "./../../../store/actions/device";
+import LoadingSpinner from "./../../UI/LoadingSpinner/LoadingSpinner";
+import ConfirmPasswordForm from "../../UI/ConfirmPasswordForm/ConfirmPasswordForm";
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
@@ -103,7 +106,7 @@ const Devices = (props) => {
 
   const [clearSelectedRows, setClearSelectedRows] = useState(false);
   const [isMultiSelect, setIsMultiselect] = useState(false);
-  const [confirmDeleting, setConfirmDeleting] = useState(false);
+
   const newData = data.filter((device) => {
     return (
       device.device_name.toLowerCase().search(searchParam.toLowerCase()) > -1
@@ -133,7 +136,7 @@ const Devices = (props) => {
   };
   useEffect(() => {
     dispatch(getAllUserDevices());
-  }, []);
+  }, [dispatch]);
   const onRowSelected = (rowsStatus) => {
     if (rowsStatus.selectedCount > 0) {
       setIsRowSelected(true);
@@ -172,9 +175,6 @@ const Devices = (props) => {
   return (
     <div className={styles["container"]}>
       <div className={styles["container__header"]}>
-        {/* <div className={styles["container__header--title"]}>
-          <span>Devices</span>
-        </div> */}
         {!isRowSelected && (
           <ExcelFile
             element={
@@ -191,8 +191,6 @@ const Devices = (props) => {
               <ExcelColumn label="Device Imei" value="device_imei" />
               <ExcelColumn label="Date Registered" value="createdAt" />
               <ExcelColumn label="status" value="status" />
-              {/* <ExcelColumn label="device type" value="device_type" />
-            <ExcelColumn label="device location" value="location" /> */}
             </ExcelSheet>
           </ExcelFile>
         )}
@@ -246,6 +244,7 @@ const Devices = (props) => {
             highlightOnHover={true}
             clearSelectedRows={clearSelectedRows}
             // expandableRows
+          
             keyField="device_imei"
             noDataComponent="no devices found "
             onSelectedRowsChange={onRowSelected}

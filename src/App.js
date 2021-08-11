@@ -1,20 +1,18 @@
-import logo from "./logo.svg";
 import "./App.scss";
 import { Fragment, useEffect } from "react";
-import Header from "./components/layouts/Header";
-import Sidebar from "./components/layouts/Sidebar";
-import Dashboard from "./components/layouts/Dashboard";
-import { Route, Redirect, Switch, useLocation } from "react-router-dom";
-import Settings from "./components/layouts/Settings";
-import Account from "./components/layouts/Account";
-import Devices from "./components/layouts/Devices";
-import SignIn from "./pages/auth/SignIn";
+import Header from "./components/layouts/Header/Header";
+import Sidebar from "./components/layouts/Sidebar/Sidebar";
+import Dashboard from "./components/layouts/Dashboard/Dashboard";
+import { Route, Redirect, Switch } from "react-router-dom";
+import Settings from "./components/layouts/Settings/Settings";
+import Account from "./components/layouts/Account/Account";
+import Devices from "./components/layouts/Device/Devices";
+import SignIn from "./pages/auth/SignIn/SignIn";
 import { authenticate } from "./store/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "@material-ui/lab";
 import { notificationActions } from "./store";
-import Home from "./pages/Home";
-import Notification from "./components/UI/Notification";
+import Notification from "./components/UI/Notification/Notification";
 function App() {
   const auth = useSelector((state) => state.auth);
   console.log("from app", auth);
@@ -37,7 +35,7 @@ function App() {
       dispatch(notificationActions.hideCardNotification());
       dispatch(notificationActions.hideAlert());
     }, [4000]);
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     const tryLogin = () => {
       const userData = localStorage.getItem("userData");
@@ -120,14 +118,7 @@ function App() {
 
             <div className="dashboard">
               <Route path="/dashboard" exact>
-                {/* <Header
-                  title={`Device: ${
-                    selectedDevice ? `${selectedDevice.device_name}` : ""
-                  }`}
-                  device_imei={
-                    selectedDevice ? `${selectedDevice.device_imei}` : ""
-                  }
-                /> */}
+         
 
                 <Dashboard />
               </Route>
