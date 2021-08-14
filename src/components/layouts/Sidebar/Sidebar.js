@@ -10,12 +10,7 @@ import LoadingSpinner from "../../UI/LoadingSpinner/LoadingSpinner";
 const Sidebar = () => {
   const [loading, setIsLoading] = useState(false);
  
-  const dispatch = useDispatch();
-  const logoutHandler = async () => {
-    setIsLoading(true);
-    await dispatch(logout());
-    setIsLoading(false);
-  };
+
   return (
     <Fragment>
       <div className={styles["side-bar"]}>
@@ -99,11 +94,11 @@ const Sidebar = () => {
               <span>settings</span>
             </NavLink>
           </li>
-          {!loading && (
+          {/* {!loading && (
             <div className={styles["logout"]} onClick={logoutHandler}>
               <Button label="logout" />
             </div>
-          )}
+          )} */}
           {loading && <LoadingSpinner />}
         </ul>
         <div className={styles["legal"]}>

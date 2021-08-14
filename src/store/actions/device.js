@@ -1,7 +1,6 @@
 import { deviceActions, url, socketUrl, notificationActions } from "..";
 import { connectServer } from "../../utils/socket-client";
 
-
 const GET_DEVICE_PARAMS_EVENT = "GET_DEVICE_PARAMATERS";
 export const getAllUserDevices = () => {
   return async (dispatch, getState) => {
@@ -349,7 +348,6 @@ export const getDeviceAnnualData = (year) => {
     );
     const data = await response.json();
 
- 
     console.log("the chart data is ", data);
   };
 };
@@ -568,6 +566,59 @@ export const getDeviceRealtimeData = (year, month, day) => {
       deviceActions.setDeviceChartData({
         chartData: newData,
         timeRange: `Real-time Power `,
+      })
+    );
+  };
+};
+export const getDeviceLogs = (device_imei) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const token = state.auth.token;
+
+    console.log("getting monthly dara");
+    const response = await fetch(`${url}/data/getDeviceLogs/${device_imei}`, {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + token,
+        "Content-type": "application/json",
+      }),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      //   console.log(error.message);
+      dispatch(
+        await notificationActions.showCardNotification({
+          type: "error",
+          message: error.message,
+          title: "Error while getting device logs  ",
+        })
+      );
+      dispatch(deviceActions.sertDeviceLogs({ logs: {} }));
+
+      // setTimeout(() => {
+      //   dispatch(notificationActions.hideCardNotification());
+      // }, [3000]);
+      // throw new Error(error.message);
+      return;
+    }
+    const data = await response.json();
+    if (
+      data.logs.length === 0 ||
+      data.logs === undefined ||
+      data.logs === null
+    ) {
+      dispatch(
+        await notificationActions.showCardNotification({
+          type: "warning",
+          message: "no Logs found ",
+          title: "No data found ",
+        })
+      );
+    }
+
+    dispatch(
+      deviceActions.sertDeviceLogs({
+        logs: data.logs,
       })
     );
   };

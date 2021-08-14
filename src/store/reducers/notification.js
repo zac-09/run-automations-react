@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { act } from "react-dom/cjs/react-dom-test-utils.production.min";
+
 
 const intialState = {
   showAlert: false,

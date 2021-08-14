@@ -4,6 +4,9 @@
 
   width: 100%;
   padding: 4rem;
+  @media (max-width: 970px) {
+    marign: 10rem auto;
+  }
   &__heading {
     text-align: center;
     font-size: 3rem;
@@ -22,6 +25,10 @@
     background-color: var(--color-grey-dark-3);
     // background-color: rgba(255,255,255,.1);
     margin-bottom: 1rem;
+    @media (max-width: 550px) {
+    padding: 0.5 1.2rem;
+    font-size: 1.3rem;
+    }
     &:focus {
       outline: none;
       // width: 100%;
@@ -86,6 +93,9 @@
     width: 30%;
     animation: moveIn 0.3s ease-out 1.5s backwards;
     // margin-left: -5rem;
+    @media (max-width: 790px) {
+    width: 100%;
+    }
   }
 }
 .error {
@@ -100,6 +110,13 @@
   top: 2rem;
   right: 4rem;
   animation: moveLeft 0.3s ease-out 0.5s backwards;
+  @media (max-width: 1250px) {
+    width: 30rem;
+    // padding: .3rem 1rem;
+  }
+  @media (max-width: 970px) {
+    display: none;
+  }
 }
 
 @keyframes moveIn {
@@ -129,6 +146,9 @@
   // margin-top: -1rem.📍;
   & input {
     background-color: var(--color-grey-dark-3);
+  }
+  @media (max-width: 970px) {
+   width: 100%;
   }
   // text-align: center;
 }

@@ -16,6 +16,7 @@ import {
 } from "./../../../store/actions/device";
 import LoadingSpinner from "./../../UI/LoadingSpinner/LoadingSpinner";
 import ConfirmPasswordForm from "../../UI/ConfirmPasswordForm/ConfirmPasswordForm";
+import DeviceDetails from "../../UI/DeviceDetails/DeviceDetails";
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
@@ -101,7 +102,8 @@ const Devices = (props) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [addDeviceModalVisible, setAddModalVisible] = useState(false);
   const [editDeviceModalVisible, setEditModalVisible] = useState(false);
-
+  const [isShowDeviceDetails, setIsShowDeviceDetails] = useState(false);
+  const [clickedDeviceData, setClickedDeviceData] = useState(null);
   const [deleteDeviceModalVisible, setDeleteModalVisible] = useState(false);
 
   const [clearSelectedRows, setClearSelectedRows] = useState(false);
@@ -113,6 +115,9 @@ const Devices = (props) => {
     );
   });
 
+  const closeDeviceDetailsModal = () => {
+    setIsShowDeviceDetails(false);
+  };
   const onAddDeviceHandler = () => {
     setAddModalVisible(true);
   };
@@ -128,9 +133,7 @@ const Devices = (props) => {
   const onCloseEditModal = () => {
     setEditModalVisible(false);
   };
-  // const editDeviceHandler = ()=>{
 
-  // }
   const onSubmitFormHandler = (name, location, type) => {
     console.log("form sucessfully submited", name, location, type);
   };
@@ -186,7 +189,7 @@ const Devices = (props) => {
               />
             }
           >
-            <ExcelSheet data={data} name="Employees">
+            <ExcelSheet data={data} name="Devices">
               <ExcelColumn label="Device Name" value="device_name" />
               <ExcelColumn label="Device Imei" value="device_imei" />
               <ExcelColumn label="Date Registered" value="createdAt" />
@@ -244,7 +247,10 @@ const Devices = (props) => {
             highlightOnHover={true}
             clearSelectedRows={clearSelectedRows}
             // expandableRows
-          
+            onRowClicked={(data) => {
+              setIsShowDeviceDetails(true);
+              setClickedDeviceData(data);
+            }}
             keyField="device_imei"
             noDataComponent="no devices found "
             onSelectedRowsChange={onRowSelected}
@@ -300,6 +306,20 @@ const Devices = (props) => {
             onClose={onCloseDeleteModal}
             onDeleteDevices={deleteDevicesHandler}
           />
+        </Modal>
+      )}
+      {isShowDeviceDetails && (
+        <Modal
+          onClose={closeDeviceDetailsModal}
+          style={styles["device-details"]}
+        >
+          <div className={styles["form__heading"]}>
+            <sapn>Device Details</sapn>
+            <svg class={styles["close"]} onClick={closeDeviceDetailsModal}>
+              <use href={`${sprite}#icon-cross`}></use>
+            </svg>
+          </div>
+          <DeviceDetails deviceData={clickedDeviceData} />
         </Modal>
       )}
     </div>

@@ -9,6 +9,7 @@ const intialState = {
   devices: [],
   chartData: {},
   timeRange: "",
+  deviceLogs: [],
 };
 const deviceSlice = createSlice({
   name: "device",
@@ -36,6 +37,9 @@ const deviceSlice = createSlice({
     },
     setNewSelectedDevice(state, action) {
       state.selectedDevice_id = action.payload.device_imei;
+    },
+    sertDeviceLogs(state, action) {
+      state.deviceLogs = action.payload.logs;
     },
   },
 });

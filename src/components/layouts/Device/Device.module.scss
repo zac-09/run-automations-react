@@ -25,7 +25,7 @@
       animation: moveIn 0.4s ease-out 0.4s backwards;
       @media (max-width: 620px) {
         border-radius: 1px;
-         }
+      }
       @media (max-width: 970px) {
         // font-size: 1.4rem;
         padding: 0.7rem 1.5rem;
@@ -33,7 +33,7 @@
       @media (max-width: 800px) {
         padding: 0.3rem 0.8rem;
       }
-     
+
       transition: all 0.3s;
       margin-right: -3.24rem;
       &:focus {
@@ -55,7 +55,7 @@
       width: 2rem;
       fill: #fff;
       @media (max-width: 680px) {
-     display: none;
+        display: none;
       }
       @media (max-width: 970px) {
         width: 1.6rem;
@@ -239,4 +239,12 @@
   width: 100%;
   display: flex;
   justify-content: center;
+}
+.device-details {
+  width: 80%;
+  left: 10%;
+  overflow: hidden;
+  z-index: 2000;
+  position: absolute;
+  border-radius: 5px;
 }

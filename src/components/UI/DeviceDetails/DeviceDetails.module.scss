@@ -1,0 +1,67 @@
+.device {
+  font-size: 1.8rem;
+  margin-top: 2rem;
+}
+.device-name {
+  color: var(--color-secondary);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.export__btn {
+  // background-color: red;
+  background-image: linear-gradient(to bottom right, #7ed56f, #28b485);
+  margin-top: 2rem;
+  animation: moveIn 0.4s ease-out 0.8s backwards;
+
+  &--icon {
+    width: 1.9rem;
+    height: 1.9rem;
+    margin-top: 1.2rem;
+  }
+  & a {
+    margin-top: -7rem;
+
+    font-size: 1.4rem;
+
+  }
+}
+.table__container {
+  //  width: 90%;
+  flex: 1;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  margin-top: 8rem;
+
+  @media (max-width: 800px) {
+    width: 90%;
+  }
+
+  font-size: 1.5rem;
+}
+
+.device__activity {
+  &__status--active {
+    color: #fff;
+    display: inline-block;
+    font-size: 2rem;
+    background-color: var(--color-secondary);
+    height: 100%;
+    padding: 0.7rem;
+  }
+  &__status--deactive {
+    color: #fff;
+    display: inline-block;
+    font-size: 2rem;
+    background-color: #e40404de;
+    height: 100%;
+    padding: 0.7rem;
+  }
+}
+.btn-container{
+    position: absolute;
+    right: 2%;
+}
+.contianer{
+    position: relative;
+}

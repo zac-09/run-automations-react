@@ -1,4 +1,4 @@
-import { authActions, deviceActions, notificationActions, url } from "../index";
+import { authActions, notificationActions, url } from "../index";
 
 let timer;
 export const logout = () => {

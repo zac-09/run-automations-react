@@ -2,10 +2,15 @@ import { Fragment } from "react";
 import styles from "./Header.module.scss";
 import photoPlaceHolder from "./../../../assets/placeholder.png";
 import sprite from "./../../../assets/sprite.svg";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../../store/actions/auth";
 const Header = (props) => {
   const userData = useSelector((state) => state.auth.user);
 
+  const dispatch = useDispatch();
+  const logoutHandler = async () => {
+    await dispatch(logout());
+  };
   console.log("from header", userData);
 
   return (
@@ -34,6 +39,13 @@ const Header = (props) => {
               <use href={`${sprite}#icon-bell `}></use>
             </svg>
             <span className={styles["header__user-nav--notification"]}>0</span>
+          </div>
+          <div className={styles["header__user-nav--icon-box"]} onClick={logoutHandler}>
+            <svg
+              className={`${styles["header__user-nav--icon"]} ${styles["icon-red"]}`}
+            >
+              <use href={`${sprite}#icon-switch `}></use>
+            </svg>
           </div>
 
           <div className={styles["header__user-nav--user-nav"]}>

@@ -102,7 +102,7 @@ const AddDeviceForm = (props) => {
             <input
               id="electronic"
               type="radio"
-              class={styles["form__radio-input"]}
+              className={styles["form__radio-input"]}
               name="type"
               value="electronic appliance"
               checked={radio === "electronic appliance"}
