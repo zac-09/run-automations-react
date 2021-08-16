@@ -93,6 +93,10 @@ const Signup = (props) => {
       setTimeout(() => {
         history.push("/");
       }, 3000);
+      setTimeout(() => {
+        dispatch(notificationActions.hideCardNotification());
+      }, 4000);
+
       setIsRegSuccessful(true);
     } catch (error) {
       setIsLoading(false);
