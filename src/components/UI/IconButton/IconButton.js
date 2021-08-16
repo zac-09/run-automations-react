@@ -5,7 +5,7 @@ import sprite from "./../../../assets/sprite.svg";
 const IconButton = (props) => {
   return (
     <button
-      className={`${styles["btn"]} ${props.style}`}
+      className={`${styles["btn"]} ${props.style} ${props.styles}`}
       onClick={props.onClick}
       type={props.type}
       disabled={props.disabled}

@@ -29,7 +29,7 @@
 .form__container {
   background-color: #fff;
   position: absolute;
-  top: 55%;
+  top: 56%;
   left: 50%;
   overflow: hidden;
   transform: translate(-50%, -50%);
@@ -166,4 +166,23 @@
 .error {
   font-size: 1.4rem;
   color: red;
+}
+
+.remember_me {
+}
+
+.check-box {
+  margin-top: 0.5rem;
+}
+.remmeber_text {
+  font-size: 1.4rem;
+  margin-left: 1.2rem;
+  margin-top: -1rem;
+  display: inline-block;
+}
+.register_container {
+  font-size: 1.3rem;
+}
+.reg__link {
+margin-left: 1rem;
 }

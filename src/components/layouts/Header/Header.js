@@ -4,14 +4,15 @@ import photoPlaceHolder from "./../../../assets/placeholder.png";
 import sprite from "./../../../assets/sprite.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../../store/actions/auth";
+import { useHistory } from "react-router-dom";
 const Header = (props) => {
   const userData = useSelector((state) => state.auth.user);
-
+  const history = useHistory();
   const dispatch = useDispatch();
   const logoutHandler = async () => {
     await dispatch(logout());
+    history.push("/");
   };
-  console.log("from header", userData);
 
   return (
     <Fragment>
@@ -40,7 +41,10 @@ const Header = (props) => {
             </svg>
             <span className={styles["header__user-nav--notification"]}>0</span>
           </div>
-          <div className={styles["header__user-nav--icon-box"]} onClick={logoutHandler}>
+          <div
+            className={styles["header__user-nav--icon-box"]}
+            onClick={logoutHandler}
+          >
             <svg
               className={`${styles["header__user-nav--icon"]} ${styles["icon-red"]}`}
             >

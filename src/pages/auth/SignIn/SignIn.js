@@ -7,6 +7,7 @@ import { login } from "../../../store/actions/auth";
 import { useHistory } from "react-router-dom";
 import LoadingSpinner from "../../../components/UI/LoadingSpinner/LoadingSpinner";
 import useInput from "../../../hooks/use-input";
+import { Link } from "react-router-dom";
 const validateEmail = (email) => email.trim() !== "";
 const validatePassword = (password) => password.trim() !== "";
 const SignIn = (props) => {
@@ -52,7 +53,11 @@ const SignIn = (props) => {
   return (
     <Fragment>
       <div className={styles["container"]}>
-        <img src={logo} className={styles["container__logo"]} alt="company logo" />
+        <img
+          src={logo}
+          className={styles["container__logo"]}
+          alt="company logo"
+        />
         <div className={styles["form__container"]}>
           <h1 className={styles["form__container__heading"]}>Sign in</h1>
           <form
@@ -99,6 +104,15 @@ const SignIn = (props) => {
                   please provide valid password
                 </span>
               )}
+            </div>
+
+            <div className={styles["register_container"]}>
+              <p>
+                Don't have an account?
+                <Link to="/register" style={{ textDecoration: "none" ,marginLeft:".5rem",color:"#25bcf3"}}>
+                  <span>Signup</span>
+                </Link>
+              </p>
             </div>
             {!loading && (
               <FormButton

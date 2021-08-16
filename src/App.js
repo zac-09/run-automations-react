@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "@material-ui/lab";
 import { notificationActions } from "./store";
 import Notification from "./components/UI/Notification/Notification";
+import Signup from "./pages/auth/SignUp/SignUp";
 function App() {
   const auth = useSelector((state) => state.auth);
   console.log("from app", auth);
@@ -71,6 +72,28 @@ function App() {
     <Switch>
       {!isLoggedIn && (
         <Fragment>
+          <Route path="/register" exact>
+            {notification.showAlert && (
+              <Alert
+                severity={notification.alertType}
+                onClose={closeNotificationHandler}
+                style={{ zIndex: 1000000 }}
+              >
+                <span className="notification__text">
+                  {notification.alertMessage}
+                </span>
+              </Alert>
+            )}
+            {notification.showCardNotification && (
+              <Notification
+                type={notification.cardNotificationType}
+                title={notification.cardNotificationTitle}
+                message={notification.cardMessage}
+                onClose={closeCardHandler}
+              />
+            )}
+            <Signup />
+          </Route>
           <Route path="/signin" exact>
             {notification.showAlert && (
               <Alert
@@ -83,7 +106,19 @@ function App() {
                 </span>
               </Alert>
             )}
+            {notification.showCardNotification && (
+              <Notification
+                type={notification.cardNotificationType}
+                title={notification.cardNotificationTitle}
+                message={notification.cardMessage}
+                onClose={closeCardHandler}
+              />
+            )}
             <SignIn />
+          </Route>
+
+          <Route path="/" exact>
+            <Redirect to="/signin" />
           </Route>
           <Route path="*">
             <Redirect to="/signin" />
@@ -118,8 +153,6 @@ function App() {
 
             <div className="dashboard">
               <Route path="/dashboard" exact>
-         
-
                 <Dashboard />
               </Route>
               <Route path="/devices" exact>

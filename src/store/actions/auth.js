@@ -89,6 +89,32 @@ export const login = (email, password, remember_me = false) => {
     );
   };
 };
+export const signup = (email, password, name, photo) => {
+  return async (dispatch) => {
+    const response = await fetch(`${url}/users/signup`, {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+        password,
+        photo,
+        name,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      //   console.log(error.message);
+      dispatch(
+        notificationActions.showAlert({ type: "error", message: error.message })
+      );
+
+      throw new Error(error.message);
+    }
+    const data = await response.json();
+  };
+};
 
 export const getAllDistricts = () => {
   return async (dispatch) => {
