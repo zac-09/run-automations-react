@@ -20,7 +20,7 @@ import { Fragment } from "react";
 
 const validateEmail = (email) => email.trim() !== "" && email.includes("@");
 const validatePassword = (password) =>
-  password.trim() !== "" && password.length >= 5;
+  password.trim() !== "" && password.length >= 8;
 const validateName = (name) => name.trim() !== "";
 const Signup = (props) => {
   const {
@@ -189,7 +189,7 @@ const Signup = (props) => {
                       />
                       {passwordHasError && (
                         <span className={styles["error"]}>
-                          Please provide a password longer than 5 characters
+                          Please provide a password longer than 8 characters
                         </span>
                       )}
                     </div>
