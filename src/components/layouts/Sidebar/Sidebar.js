@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import styles from "./Sidebar.module.scss";
 import sprite from "./../../../assets/sprite.svg";
 import logo from "./../../../assets/newlogo.png";

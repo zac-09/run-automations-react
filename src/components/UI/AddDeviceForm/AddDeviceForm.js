@@ -30,7 +30,7 @@ const AddDeviceForm = (props) => {
   const districts = useSelector((state) => state.auth.districts);
   const [radio, setRadio] = useState("iot device");
   const [district, setDistrict] = useState("");
-  const [districtHasEror, setDistrictHasError] = useState(false);
+  const [districtHasEror, setDistrictHasError] = useState(true);
   const radioChangeHandler = (event) => {
     console.log("the event is", event.target.value);
     setRadio(event.target.value);
@@ -50,12 +50,13 @@ const AddDeviceForm = (props) => {
     // console.log("the districts are", districts);
   }, [dispatch]);
   const submitFormHandler = (event) => {
-    if (district.trim() === "") {
+    if (district.trim() === "" ) {
       setDistrictHasError(true);
     }
     event.preventDefault();
     console.log("successfully reached");
     if (!formIsValid) {
+
       return;
     }
     setIsLoading(true);
@@ -73,6 +74,7 @@ const AddDeviceForm = (props) => {
   };
   const onDistrictChangeHandler = (option) => {
     setDistrict(option.value);
+    setDistrictHasError(false);
   };
 
   return (

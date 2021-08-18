@@ -19,7 +19,7 @@ const notificationSlice = createSlice({
       state.alertType = action.payload.type;
       state.alertMessage = action.payload.message;
     },
-    hideAlert(state, action) {
+    hideAlert(state, _) {
       state.showAlert = false;
       state.alertType = null;
       state.alertMessage = null;
@@ -31,7 +31,7 @@ const notificationSlice = createSlice({
       state.cardNotificationTitle = action.payload.title;
 
     },
-    hideCardNotification(state, action) {
+    hideCardNotification(state, _) {
       state.showCardNotification = false;
       state.cardNotificationType = null;
       state.cardMessage = null;

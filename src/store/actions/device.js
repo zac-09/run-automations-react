@@ -179,6 +179,7 @@ export const addDevice = (device_name, location, device_type) => {
       }, [4000]);
 
       throw new Error(error.message);
+      // return;
     }
     const data = await response.json();
     await dispatch(

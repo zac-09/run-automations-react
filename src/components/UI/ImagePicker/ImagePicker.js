@@ -16,7 +16,7 @@ const ImagePicker = (props) => {
   const webcamRef = useRef(null);
   const [photo, setPhoto] = useState("");
 
-  const [openFileSelector, { filesContent, loading, errors }] = useFilePicker({
+  const [openFileSelector, { filesContent }] = useFilePicker({
     readAs: "DataURL",
     accept: "image/*",
     multiple: false,
@@ -26,7 +26,7 @@ const ImagePicker = (props) => {
   });
   useEffect(() => {
     filesContent.map((file, index) => {
-      setPhoto(file.content);
+      return setPhoto(file.content);
     });
   }, [filesContent]);
 
@@ -48,7 +48,7 @@ const ImagePicker = (props) => {
       <div className={styles["webcam-container"]}>
         <Fragment>
           <div className={styles["img-container"]}>
-            {photo == "" ? (
+            {photo === "" ? (
               <Webcam
                 audio={false}
                 height={200}
@@ -58,10 +58,14 @@ const ImagePicker = (props) => {
                 videoConstraints={videoConstraints}
               />
             ) : (
-              <img src={photo} className={styles["user-img"]} />
+              <img
+                src={photo}
+                className={styles["user-img"]}
+                alt="user photo"
+              />
             )}
           </div>
-          {photo == "" ? (
+          {photo === "" ? (
             <IconButton
               styles={styles["btn"]}
               icon="camera"

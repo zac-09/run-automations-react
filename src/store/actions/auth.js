@@ -109,10 +109,12 @@ export const signup = (email, password, name, photo) => {
       dispatch(
         notificationActions.showAlert({ type: "error", message: error.message })
       );
+      setTimeout(() => {
+        dispatch(notificationActions.hideCardNotification());
+      }, 7000);
 
       throw new Error(error.message);
     }
-    const data = await response.json();
   };
 };
 

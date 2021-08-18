@@ -1,15 +1,13 @@
 import styles from "./Signup.module.scss";
 import SVG from "./../../../assets/setup.svg";
 import wellDone from "./../../../assets/well_done.svg";
-
+import { Link } from "react-router-dom";
 import useInput from "../../../hooks/use-input";
 import { useState } from "react";
 import Modal from "../../../components/UI/Modal/Modal";
 import ImagePicker from "../../../components/UI/ImagePicker/ImagePicker";
 import placeholder from "../../../assets/profile_pic.svg";
 import sprite from "../../../assets/sprite.svg";
-import IconButton from "../../../components/UI/IconButton/IconButton";
-import InlineButton from "../../../components/UI/InlineButton/InlineButton";
 import { useHistory } from "react-router-dom";
 import LoadingSpinner from "../../../components/UI/LoadingSpinner/LoadingSpinner";
 import FormButton from "../../../components/UI/FormButton/FormButton";
@@ -92,10 +90,7 @@ const Signup = (props) => {
       setIsLoading(false);
       setTimeout(() => {
         history.push("/");
-      }, 3000);
-      setTimeout(() => {
-        dispatch(notificationActions.hideCardNotification());
-      }, 4000);
+      }, 5000);
 
       setIsRegSuccessful(true);
     } catch (error) {
@@ -123,7 +118,11 @@ const Signup = (props) => {
                     className={styles["img-container"]}
                     onClick={onOpenImageModal}
                   >
-                    <img src={userPhoto} className={styles["user-img"]} />
+                    <img
+                      src={userPhoto}
+                      className={styles["user-img"]}
+                      alt="user avatar"
+                    />
                     <div className={styles["icon-container"]}>
                       <svg
                         class={styles["user-icon"]}
@@ -194,6 +193,21 @@ const Signup = (props) => {
                       )}
                     </div>
                   </div>
+                  <div className={styles["register_container"]}>
+                    <p>
+                      Already have an account?
+                      <Link
+                        to="/signin"
+                        style={{
+                          textDecoration: "none",
+                          marginLeft: ".5rem",
+                          color: "#25bcf3",
+                        }}
+                      >
+                        <span>login</span>
+                      </Link>
+                    </p>
+                  </div>
                   {!loading && (
                     <FormButton
                       style={styles["form__container__btn"]}
@@ -214,7 +228,11 @@ const Signup = (props) => {
             </Fragment>
           ) : (
             <Fragment>
-              <img src={wellDone} className={styles["well-done"]} />
+              <img
+                src={wellDone}
+                className={styles["well-done"]}
+                alt="well done illustration"
+              />
             </Fragment>
           )}
         </div>
