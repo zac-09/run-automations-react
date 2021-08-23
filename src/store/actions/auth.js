@@ -132,3 +132,37 @@ export const getAllDistricts = () => {
     dispatch(authActions.setDistricts({ districts }));
   };
 };
+export const forgotPassword = (email) => {
+  return async (dispatch) => {
+    const response = await fetch(`${url}/users/forgotPassword`, {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      //   console.log(error.message);
+      dispatch(
+        notificationActions.showCardNotification({
+          type: "error",
+          message: error.message,
+        })
+      );
+      setTimeout(() => {
+        dispatch(notificationActions.hideCardNotification());
+      }, 7000);
+      return;
+    }
+    dispatch(
+      notificationActions.showCardNotification({
+        type: "success",
+        message:
+          "Password revocery intiated please check email for instructions",
+      })
+    );
+  };
+};

@@ -8,6 +8,9 @@ import { useHistory } from "react-router-dom";
 import LoadingSpinner from "../../../components/UI/LoadingSpinner/LoadingSpinner";
 import useInput from "../../../hooks/use-input";
 import { Link } from "react-router-dom";
+import Modal from "./../../../components/UI/Modal/Modal";
+import sprite from "./../../../assets/sprite.svg";
+import ForgotPassword from "../../../components/UI/ForgotPasswordForm/ForgotPassword";
 const validateEmail = (email) => email.trim() !== "";
 const validatePassword = (password) => password.trim() !== "";
 const SignIn = (props) => {
@@ -31,9 +34,13 @@ const SignIn = (props) => {
   const history = useHistory();
 
   const [loading, setIsLoading] = useState(false);
-
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const dispatch = useDispatch();
+
   const formIsValid = emailIsValid && passwordIsValid;
+  const oncloseForgotModal = () => {
+    setIsForgotPassword(false);
+  };
   const submitHandler = async (event) => {
     if (!formIsValid) {
       return;
@@ -105,27 +112,63 @@ const SignIn = (props) => {
                 </span>
               )}
             </div>
-
-            <div className={styles["register_container"]}>
+            <div className={styles["forgotPassword"]}>
               <p>
-                Don't have an account?
-                <Link to="/register" style={{ textDecoration: "none" ,marginLeft:".5rem",color:"#25bcf3"}}>
-                  <span>Signup</span>
-                </Link>
+                <a
+                  onClick={() => {
+                    setIsForgotPassword(true);
+                  }}
+                  to="/register"
+                  style={{
+                    textDecoration: "none",
+                    marginLeft: ".5rem",
+                    color: "#25bcf3",
+                    cursor: "pointer",
+                  }}
+                >
+                  <span> Forgot Password?</span>
+                </a>
               </p>
             </div>
+
             {!loading && (
               <FormButton
                 style={styles["form__container__btn"]}
                 title="sign in"
               />
             )}
+            <div className={styles["register_container"]}>
+              <p>
+                Don't have an account?
+                <Link
+                  to="/register"
+                  style={{
+                    textDecoration: "none",
+                    marginLeft: ".5rem",
+                    color: "#25bcf3",
+                  }}
+                >
+                  <span>Signup</span>
+                </Link>
+              </p>
+            </div>
             {loading && (
               <LoadingSpinner style={styles["form__container__spinner"]} />
             )}
           </form>
         </div>
       </div>
+      {isForgotPassword && (
+        <Modal onClose={oncloseForgotModal} style={styles["forgot-modal"]}>
+          <div className={styles["modal-heading"]}>
+            <sapn>Forgot Password</sapn>
+            <svg class={styles["close"]} onClick={oncloseForgotModal}>
+              <use href={`${sprite}#icon-cross`}></use>
+            </svg>
+          </div>
+          <ForgotPassword onClose={oncloseForgotModal} />
+        </Modal>
+      )}
     </Fragment>
   );
 };

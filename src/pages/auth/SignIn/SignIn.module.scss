@@ -92,7 +92,7 @@
     margin-top: 3rem;
   }
   &__btn {
-    margin-top: 2.5rem;
+    margin-top: 1.8rem;
     margin-left: 3rem;
   }
   &__spinner {
@@ -181,8 +181,35 @@
   display: inline-block;
 }
 .register_container {
+  margin-top: 1rem;
+  margin-left: 2rem;
   font-size: 1.3rem;
 }
 .reg__link {
-margin-left: 1rem;
+  margin-left: 1rem;
+}
+.forgotPassword {
+  font-size: 1.3rem;
+  text-align: center;
+}
+.forgot-modal {
+  width: 50%;
+  left: 25%;
+  overflow: hidden;
+  z-index: 2000;
+  position: absolute;
+  border-radius: 5px;
+}
+.close {
+  width: 1.3rem;
+  height: 1.3rem;
+  fill: var(--color-grey-dark-3);
+  position: absolute;
+  right: 1rem;
+}
+.modal-heading {
+  text-align: center;
+  font-size: 3rem;
+  color: var(--color-secondary);
+  font-weight: 700;
 }
