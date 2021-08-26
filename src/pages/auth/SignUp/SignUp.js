@@ -214,6 +214,7 @@ const Signup = (props) => {
                       title="register"
                     />
                   )}
+                 
                   {loading && (
                     <LoadingSpinner
                       style={styles["form__container__spinner"]}
