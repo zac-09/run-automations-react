@@ -2,6 +2,7 @@ import { deviceActions, url, socketUrl, notificationActions } from "..";
 import { connectServer } from "../../utils/socket-client";
 
 const GET_DEVICE_PARAMS_EVENT = "GET_DEVICE_PARAMATERS";
+const currentDate = new Date();
 export const getAllUserDevices = () => {
   return async (dispatch, getState) => {
     const state = getState();
@@ -242,7 +243,7 @@ export const changeSelectedDevice = (device_imei) => {
   return async (dispatch) => {
     await dispatch(deviceActions.setNewSelectedDevice({ device_imei }));
     await dispatch(getDeviceData());
-    await dispatch(getDeviceMonthlyData(2021));
+    await dispatch(getDeviceMonthlyData(currentDate.getFullYear()));
   };
 };
 

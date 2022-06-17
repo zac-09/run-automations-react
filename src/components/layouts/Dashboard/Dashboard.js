@@ -20,6 +20,8 @@ import { getSwitchData, toggleSwitch } from "../../../store/actions/switch";
 import Header from "./../Header/Header";
 import Select, { components } from "react-select";
 
+const currentDate = new Date();
+
 const options = {
   scales: {
     yAxes: [
@@ -96,15 +98,15 @@ const Dashboard = () => {
     if (option === "weekly") {
       const week = moment().week() - 1;
       console.log("week is", week);
-      dispatch(getDeviceWeeklyData(2021, week));
+      dispatch(getDeviceWeeklyData(currentDate.getFullYear(), week));
     } else if (option === "monthly") {
-      dispatch(getDeviceMonthlyData(2021));
+      dispatch(getDeviceMonthlyData(currentDate.getFullYear()));
     } else if (option === "real-time") {
       const month = moment().month() + 1;
       const day = moment(new Date()).format("D");
       // console.log("month and day is", month, day);
 
-      dispatch(getDeviceRealtimeData(2021, month, day));
+      dispatch(getDeviceRealtimeData(currentDate.getFullYear(), month, day));
     }
   };
   useEffect(() => {
@@ -117,7 +119,7 @@ const Dashboard = () => {
   }, [dispatch]);
   useEffect(() => {
     setTimeout(() => {
-      dispatch(getDeviceMonthlyData(2021));
+      dispatch(getDeviceMonthlyData(currentDate.getFullYear()));
     }, 5000);
   }, [dispatch]);
   if (
