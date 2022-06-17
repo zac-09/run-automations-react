@@ -36,6 +36,9 @@
     "web-vitals": "^1.1.2",
     "xlsx": "^0.17.0"
   },
+  "engines": {
+    "node": "16.15.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
