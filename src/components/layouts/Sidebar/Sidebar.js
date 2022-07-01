@@ -91,7 +91,7 @@ const Sidebar = () => {
           </li>
         </ul>
         <div className={styles["legal"]}>
-          &copy; copyright run automations 2021
+          &copy; Copyright Run Automations {new Date().getFullYear()}
         </div>
       </div>
     </Fragment>
